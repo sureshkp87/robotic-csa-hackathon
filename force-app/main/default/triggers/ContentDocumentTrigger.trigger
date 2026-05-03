@@ -1,5 +1,6 @@
 trigger ContentDocumentTrigger on ContentDocument (after insert) {
     for(ContentDocument cd : Trigger.new){
+        
         // Get the ContentDocumentId (can be queried or from a trigger)
         Id myFileId = cd.Id; // Example ContentDocumentId
         Id targetRecordId = '005bm00000PBD5BAAX'; // Example Account/User Id

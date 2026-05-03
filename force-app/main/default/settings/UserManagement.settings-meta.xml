@@ -11,8 +11,8 @@
     <enableRestrictEmailDomains>false</enableRestrictEmailDomains>
     <enableScrambleUserData>false</enableScrambleUserData>
     <enableUserSelfDeactivate>true</enableUserSelfDeactivate>
-    <enhancedPermSetList>false</enhancedPermSetList>
-    <enhancedUserListView>false</enhancedUserListView>
+    <enhancedPermSetList>true</enhancedPermSetList>
+    <enhancedUserListView>true</enhancedUserListView>
     <enhancedUserRoleListView>false</enhancedUserRoleListView>
     <groupSummaryUIEnhancement>true</groupSummaryUIEnhancement>
     <permsetsInFieldCreation>false</permsetsInFieldCreation>

@@ -7,15 +7,15 @@
     <clctnAndRecoveryAgntPref>false</clctnAndRecoveryAgntPref>
     <collDialerCampaignPref>false</collDialerCampaignPref>
     <collectionAsaAgentPref>false</collectionAsaAgentPref>
-    <createCustomerPropertyFromLAProperty>false</createCustomerPropertyFromLAProperty>
-    <createFSCAssetFromLAAsset>false</createFSCAssetFromLAAsset>
-    <createFSCAssetFromLAProperty>false</createFSCAssetFromLAProperty>
-    <createFSCLiabilityFromLAFinancial>false</createFSCLiabilityFromLAFinancial>
-    <createFSCLiabilityFromLALiability>false</createFSCLiabilityFromLALiability>
-    <createFinancialAccountFromLAAsset>false</createFinancialAccountFromLAAsset>
-    <createFinancialAccountFromLALiability>false</createFinancialAccountFromLALiability>
-    <createFinancialAccountsFromLAFinancials>false</createFinancialAccountsFromLAFinancials>
-    <createFinancialAccountsFromLAProperty>false</createFinancialAccountsFromLAProperty>
+    <createCustomerPropertyFromLAProperty>true</createCustomerPropertyFromLAProperty>
+    <createFSCAssetFromLAAsset>true</createFSCAssetFromLAAsset>
+    <createFSCAssetFromLAProperty>true</createFSCAssetFromLAProperty>
+    <createFSCLiabilityFromLAFinancial>true</createFSCLiabilityFromLAFinancial>
+    <createFSCLiabilityFromLALiability>true</createFSCLiabilityFromLALiability>
+    <createFinancialAccountFromLAAsset>true</createFinancialAccountFromLAAsset>
+    <createFinancialAccountFromLALiability>true</createFinancialAccountFromLALiability>
+    <createFinancialAccountsFromLAFinancials>true</createFinancialAccountsFromLAFinancials>
+    <createFinancialAccountsFromLAProperty>true</createFinancialAccountsFromLAProperty>
     <enableAIAccelerator>false</enableAIAccelerator>
     <enableAcademicOperations>false</enableAcademicOperations>
     <enableAccessToMasterListOfCoverageTypes>false</enableAccessToMasterListOfCoverageTypes>
@@ -199,13 +199,13 @@
     <enableVisitInventoryEnabled>false</enableVisitInventoryEnabled>
     <enableWaitlistManagementPref>false</enableWaitlistManagementPref>
     <isCustomDpeTxObsProviderSearchEnabled>false</isCustomDpeTxObsProviderSearchEnabled>
-    <loanApplicantAddressAutoCreation>false</loanApplicantAddressAutoCreation>
-    <loanApplicantAutoCreation>false</loanApplicantAutoCreation>
-    <mortgageSalesforceSharing>false</mortgageSalesforceSharing>
+    <loanApplicantAddressAutoCreation>true</loanApplicantAddressAutoCreation>
+    <loanApplicantAutoCreation>true</loanApplicantAutoCreation>
+    <mortgageSalesforceSharing>true</mortgageSalesforceSharing>
     <nonProfitCloudEmbeddedAI>false</nonProfitCloudEmbeddedAI>
     <participantRecordDeactivateUser>PreventDeactivateUserWithParticipantRecords</participantRecordDeactivateUser>
     <partyProfMultiShrPrtnrsOrgPref>false</partyProfMultiShrPrtnrsOrgPref>
-    <rlaEditIfAccHasEdit>false</rlaEditIfAccHasEdit>
+    <rlaEditIfAccHasEdit>true</rlaEditIfAccHasEdit>
     <showCollectionContactAndAccount>false</showCollectionContactAndAccount>
     <transformRBLtoDPE>false</transformRBLtoDPE>
 </IndustriesSettings>

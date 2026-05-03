@@ -453,7 +453,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ShareContentWithEinsteinAction</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SiteLoginController</apexClass>
@@ -473,7 +473,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>UtilityClass</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>VerifyOTPOfTheCustomer</apexClass>
