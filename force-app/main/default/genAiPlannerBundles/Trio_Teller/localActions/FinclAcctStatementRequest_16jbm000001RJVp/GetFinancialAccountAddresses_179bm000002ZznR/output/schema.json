@@ -1,0 +1,16 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureOutput" : {
+      "title" : "Integration Procedure Output",
+      "description" : "A list of Account Address, containing financial account address details and billing/shipping addresses for a person account.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedFSCx785fGetAccountAddressOutput_Data",
+      "einstein:description" : "A list of Account Address, containing financial account address details and billing/shipping addresses for a person account.",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

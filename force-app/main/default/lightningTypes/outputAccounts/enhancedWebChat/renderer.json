@@ -1,0 +1,18 @@
+{
+  "renderer" : {
+    "componentOverrides" : {
+      "$" : {
+        "definition" : "c/outPutAccounts"
+      }
+    }
+  },
+  "collection" : {
+    "renderer" : {
+      "componentOverrides" : {
+        "$" : {
+          "definition" : "c/outPutAccounts"
+        }
+      }
+    }
+  }
+}

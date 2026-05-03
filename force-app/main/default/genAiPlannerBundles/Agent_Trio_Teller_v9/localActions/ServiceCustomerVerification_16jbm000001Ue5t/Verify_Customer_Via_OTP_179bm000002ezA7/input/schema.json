@@ -1,0 +1,21 @@
+{
+  "required" : [ "enteredOTP", "otpFromTwillio" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "enteredOTP" : {
+      "title" : "enteredOTP",
+      "description" : "Entered OTP By Cust",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "otpFromTwillio" : {
+      "title" : "otpFromTwillio",
+      "description" : "Twillio OTP",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

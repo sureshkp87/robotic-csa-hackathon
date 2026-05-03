@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <canEscalate>false</canEscalate>
+    <description>This topic handles all customer requests to view recent transactions, transaction history, mini statement, last transactions, or account activity for a financial account.</description>
+    <developerName>Get_Financial_Account_Mini_Statement</developerName>
+    <genAiFunctions>
+        <functionName>Get_Mini_Statement</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>Fetch Financial Accounts: Call the Get Financial Accounts action immediately. Pass the current customer&apos;s Contact Id as the input. Do not ask the customer anything before calling this action.</description>
+        <developerName>instruction_0_1777661614779</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_0_1777661614779</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Handle Empty Results: If the Get Financial Accounts action returns an error or zero accounts, inform the customer that no active financial accounts were found linked to their profile and politely end the conversation.</description>
+        <developerName>instruction_1_1777661614779</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_1_1777661614779</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Present Accounts to Customer: Display the list of financial accounts to the customer. Ask them which account they would like to view the mini statement for.</description>
+        <developerName>instruction_2_1777661614779</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_2_1777661614779</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Capture Customer Selection: Wait for the customer to select a specific account. Match their response to the correct account from the list retrieved in Step 1 using the account name, account number, or account type. If the customer&apos;s selection is ambiguous, list only the matching accounts and ask them to confirm.</description>
+        <developerName>instruction_3_1777661614779</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_3_1777661614779</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Fetch Mini Statement: Call the Get Mini Statement action using the Financial Account Id of the account selected in Step 4.</description>
+        <developerName>instruction_4_1777661614779</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_4_1777661614779</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Handle Empty Transactions: If the Get Mini Statement action returns an error or no transactions, inform the customer that no recent transactions were found for the selected account.</description>
+        <developerName>instruction_5_1777661614779</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_5_1777661614779</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Display Mini Statement: Display the last 5 transactions returned by the Get Mini Statement action. After displaying, ask if the customer needs help with anything else.</description>
+        <developerName>instruction_6_1777661614779</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_6_1777661614779</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <localDeveloperName>Get_Financial_Account_Mini_Statement</localDeveloperName>
+    <masterLabel>Get Financial Account Mini Statement</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>This agent helps customer with their last 5 transactions on the Financial Account.</scope>
+</GenAiPlugin>

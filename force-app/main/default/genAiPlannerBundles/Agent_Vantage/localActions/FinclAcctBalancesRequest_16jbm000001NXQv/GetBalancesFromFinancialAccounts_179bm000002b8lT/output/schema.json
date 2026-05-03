@@ -1,0 +1,16 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureOutput" : {
+      "title" : "Integration Procedure Output",
+      "description" : "This is output to be provided to the user, it is the list of financial account balances",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedFSCx785fGetFinancialAccountBalancesOutput_Data",
+      "einstein:description" : "This is output to be provided to the user, it is the list of financial account balances",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

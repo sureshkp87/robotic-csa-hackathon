@@ -1,0 +1,16 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureOutput" : {
+      "title" : "Integration Procedure Output",
+      "description" : "Returns the output JSON response which includes the caseId and caseNumber on successful case creation or an error on failure.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedTransferFundstoOwnAccountx785fCreateCaseOutput_Data",
+      "einstein:description" : "This is output of the action which consists of the caseId and caseNumber or error in case action fails.",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

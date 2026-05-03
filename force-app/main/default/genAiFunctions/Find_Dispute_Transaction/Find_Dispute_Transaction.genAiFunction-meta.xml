@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Finds a matching FinancialAccountTransaction based on amount, merchant keyword and date</description>
+    <developerName>Find_Dispute_Transaction</developerName>
+    <invocationTarget>FindDisputeTransactionAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+    <localDeveloperName>Find_Dispute_Transaction</localDeveloperName>
+    <masterLabel>Find Dispute Transaction</masterLabel>
+    <progressIndicatorMessage>Getting dispute data</progressIndicatorMessage>
+</GenAiFunction>

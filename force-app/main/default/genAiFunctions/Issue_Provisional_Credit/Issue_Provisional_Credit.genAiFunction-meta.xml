@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Issues provisional credit transaction and updates DisputeItem using standard FSC fields</description>
+    <developerName>Issue_Provisional_Credit</developerName>
+    <invocationTarget>IssueProvisionalCreditAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+    <localDeveloperName>Issue_Provisional_Credit</localDeveloperName>
+    <masterLabel>Issue Provisional Credit</masterLabel>
+    <progressIndicatorMessage>Issuing provisional credit...</progressIndicatorMessage>
+</GenAiFunction>

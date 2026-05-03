@@ -1,0 +1,16 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureOutput" : {
+      "title" : "Integration Procedure Output",
+      "description" : "A list of Cards, where each record represents a card linked to a financial account. Each record includes the Card Number, Card Valid Until date, Card Status, Card Type, and associated Financial Account details such as Name, Type, and Role.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedFSCx785fGetCardsOutput_Data",
+      "einstein:description" : "A list of Cards, where each record represents a card linked to a financial account. Each record includes the Card Number, Card Valid Until date, Card Status, Card Type, and associated Financial Account details such as Name, Type, and Role.",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

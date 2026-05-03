@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DataSource xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>MessagingEventsWhatsAppV2_00Dbm00000fmLDp_89ee0b08_c7c3_4326_84a1_0e0497b72efa</masterLabel>
+    <prefix>Mes</prefix>
+</DataSource>

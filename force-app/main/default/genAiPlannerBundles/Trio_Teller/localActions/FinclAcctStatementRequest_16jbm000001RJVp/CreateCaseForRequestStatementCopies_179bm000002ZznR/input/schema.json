@@ -1,0 +1,16 @@
+{
+  "required" : [ "IntegrationProcedureInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureInput" : {
+      "title" : "Integration Procedure Input",
+      "description" : "The input JSON data containing user preferences for the request. Requires SelectedAccount, SelectedFinancialAccount, StartDate, EndDate, Duration, ViaEmail, and ViaPost, and optionally accepts DeliveryPreference and SelectedAddress.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedRequestStatementCopiesx785fCreateCaseInput_Data",
+      "einstein:description" : "The input JSON data containing user preferences for the request. Requires SelectedAccount, SelectedFinancialAccount, StartDate, EndDate, Duration, ViaEmail, and ViaPost, and optionally accepts DeliveryPreference and SelectedAddress.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

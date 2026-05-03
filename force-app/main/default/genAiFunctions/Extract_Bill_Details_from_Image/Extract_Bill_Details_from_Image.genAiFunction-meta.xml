@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Saves bill image as Salesforce File on Dispute and extracts amount and date using AI</description>
+    <developerName>Extract_Bill_Details_from_Image</developerName>
+    <invocationTarget>AIBillExtractAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>Extract_Bill_Details_from_Image</localDeveloperName>
+    <masterLabel>Extract Bill Details from Image</masterLabel>
+</GenAiFunction>

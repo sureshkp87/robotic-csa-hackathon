@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>v1</fullName>
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Hello! I&apos;m your Banking Service Customer Assistance agent. I can help customers in raising various service process requests, such as update address, reverse a fee, get balances and statements, report a card, transfer funds, and so on. Plus, I can help customers with routine tasks such as case creation, inquiries, and more. I don’t always get things right, so please review my messages for accuracy. What can I help you with today?</message>
+                <messageIdentifier>dd3c608f-a9d4-424f-9bb1-81289e4002c6</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>55c799b9-c8e3-4e09-9aa1-ca5e6bc7ef34</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>4d0672e7-a7ef-4053-94ae-4a157db11d10</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Welcome</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Hi! I&apos;m your helpful bot.</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Something went wrong. Try again later or ask your Salesforce admin for help.</message>
+                <messageIdentifier>0ad26ac8-300e-4aab-bcaf-92f59039a77a</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>0f1c2863-4127-4cf9-b273-dfe0d9a62926</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>b901c9a2-e2d4-4f70-b979-d2ad6b48be9e</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Error_Handling</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Unfortunately, a system error occurred. Let us start again.</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <citationsEnabled>false</citationsEnabled>
+    <company>Bank</company>
+    <conversationDefinitionPlanners>
+        <genAiPlannerName>Trio_Teller</genAiPlannerName>
+    </conversationDefinitionPlanners>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>This variable may also be referred to as VerifiedCustomerId</description>
+        <developerName>VerifiedCustomerId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>VerifiedCustomerId</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <copilotSecondaryLanguages>hi</copilotSecondaryLanguages>
+    <defaultStdObjForContactIdFltrEnabled>false</defaultStdObjForContactIdFltrEnabled>
+    <entryDialog>Welcome</entryDialog>
+    <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
+    <intentV3Enabled>false</intentV3Enabled>
+    <isScriptCompatibleAgent>false</isScriptCompatibleAgent>
+    <knowledgeActionEnabled>false</knowledgeActionEnabled>
+    <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
+    <role>You’re a Banking Service Customer Assistance helping facilitate banking service processes with account information retrieval and record creation such as cases, inquiries, policy checks, and more.</role>
+    <smallTalkEnabled>false</smallTalkEnabled>
+    <staticPromptsEnabled>false</staticPromptsEnabled>
+    <stopRecPrompts>false</stopRecPrompts>
+    <stopWelcomePrompts>false</stopWelcomePrompts>
+    <surfacesEnabled>false</surfacesEnabled>
+    <toneType>Casual</toneType>
+</BotVersion>

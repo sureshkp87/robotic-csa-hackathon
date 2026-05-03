@@ -1,0 +1,66 @@
+<template>
+    <template if:true={hasAccounts}>
+        <div class="slds-card slds-p-around_medium">
+
+            <div class="slds-media slds-media_center slds-m-bottom_small">
+                <div class="slds-media__body">
+                    <p class="slds-text-heading_small">Financial Accounts</p>
+                    <p class="slds-text-body_small slds-text-color_weak">
+                        {accountCount} account(s) found
+                    </p>
+                </div>
+            </div>
+
+            <hr class="slds-m-vertical_small"/>
+
+            <template for:each={accounts} for:item="account">
+                <div key={account.financialAccountId}
+                     class="slds-box slds-m-bottom_small">
+
+                    <div class="slds-media slds-media_center">
+                        <div class="slds-media__figure">
+                            <lightning-icon
+                                icon-name={account.iconName}
+                                size="small">
+                            </lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <p class="slds-text-body_regular slds-text-color_default">
+                                {account.financialAccountName}
+                            </p>
+                            <p class="slds-text-body_small slds-text-color_weak">
+                                {account.financialAccountType} &middot; {account.financialAccountNumber}
+                            </p>
+                        </div>
+                        <div class="slds-media__figure slds-media__figure_reverse">
+                            <lightning-badge label={account.status}></lightning-badge>
+                        </div>
+                    </div>
+
+                </div>
+            </template>
+
+        </div>
+    </template>
+
+    <template if:true={hasError}>
+        <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+            <span class="slds-assistive-text">Error</span>
+            <lightning-icon
+                icon-name="utility:error"
+                alternative-text="Error"
+                size="x-small"
+                class="slds-m-right_x-small">
+            </lightning-icon>
+            {error}
+        </div>
+    </template>
+
+    <template if:false={hasAccounts}>
+        <template if:false={hasError}>
+            <p class="slds-text-color_weak slds-p-around_medium">
+                No financial accounts found.
+            </p>
+        </template>
+    </template>
+</template>

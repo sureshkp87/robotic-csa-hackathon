@@ -1,0 +1,16 @@
+{
+  "required" : [ "IntegrationProcedureInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureInput" : {
+      "title" : "Integration Procedure Input",
+      "description" : "An apex class object that contains transaction details, assessment ID, reason code, and reason subcode.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedFSCTxnDisputeMgmtx785fDisputeCreateCaseInput_Data",
+      "einstein:description" : "An apex class object that contains transaction details, assessment ID, reason code, and reason subcode.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

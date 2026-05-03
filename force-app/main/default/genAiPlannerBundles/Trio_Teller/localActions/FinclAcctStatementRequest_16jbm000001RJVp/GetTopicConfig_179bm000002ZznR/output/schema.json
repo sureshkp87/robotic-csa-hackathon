@@ -1,0 +1,16 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureOutput" : {
+      "title" : "Integration Procedure Output",
+      "description" : "The output JSON response containing configuration details for Financial Accounts, Financial Account Addresses, Cards, Financial Account Balances, and Financial Account Transactions.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedTopicx785fConfigOutput_Data",
+      "einstein:description" : "The output JSON response containing configuration details for Financial Accounts, Financial Account Addresses, Cards, Financial Account Balances, and Financial Account Transactions.",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

@@ -1,0 +1,15 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "result" : {
+      "title" : "Matched Transaction",
+      "description" : "Transaction result from the find dispute",
+      "lightning:type" : "@apexClassType/c__DisputeTransactionWrapper",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

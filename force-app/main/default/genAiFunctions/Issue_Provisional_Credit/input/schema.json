@@ -1,0 +1,35 @@
+{
+  "required" : [ "creditAmount", "disputeId", "disputeItemId", "financialAccountId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "creditAmount" : {
+      "title" : "Credit Amount",
+      "description" : "credit Amount",
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "disputeId" : {
+      "title" : "Dispute Id",
+      "description" : "dispute Id",
+      "lightning:type" : "lightning__recordIdType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "disputeItemId" : {
+      "title" : "Dispute Item Id",
+      "description" : "dispute Item Id",
+      "lightning:type" : "lightning__recordIdType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "financialAccountId" : {
+      "title" : "Financial Account Id",
+      "description" : "financialAccount Id",
+      "lightning:type" : "lightning__recordIdType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

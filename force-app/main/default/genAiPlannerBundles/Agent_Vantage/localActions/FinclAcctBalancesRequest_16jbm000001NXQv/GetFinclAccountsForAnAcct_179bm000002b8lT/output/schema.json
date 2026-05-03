@@ -1,0 +1,15 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureOutput" : {
+      "title" : "Integration Procedure Output",
+      "description" : "A list of Financial Accounts, with each record representing a financial account with details as follows: 1. Financial Account number, 2. Record Name of the Financial Account, 3. Record ID of the Financial Account, 4. Type of Financial Account (Savings, Checking, Loan, Credit Card, Lease, etc.), 5. Source System ID which represents the unique ID of the Financial Account in the core banking system, 6. Status of Financial Account 7. Associated role of Financial Account with Account",
+      "lightning:type" : "c__outputAccounts",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

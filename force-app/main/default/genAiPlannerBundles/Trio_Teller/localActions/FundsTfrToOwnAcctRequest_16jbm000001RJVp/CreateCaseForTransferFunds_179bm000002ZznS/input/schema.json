@@ -1,0 +1,16 @@
+{
+  "required" : [ "IntegrationProcedureInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureInput" : {
+      "title" : "Integration Procedure Input",
+      "description" : "This is input of the action which consists of the selectedAccount, sourceFinancialAccount, targetFinancialAccount, transferAmount, paymentOption, and currencyCode.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedTransferFundstoOwnAccountx785fCreateCaseInput_Data",
+      "einstein:description" : "This is input of the action which consists of the selectedAccount, sourceFinancialAccount, targetFinancialAccount, transferAmount, paymentOption, and currencyCode.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

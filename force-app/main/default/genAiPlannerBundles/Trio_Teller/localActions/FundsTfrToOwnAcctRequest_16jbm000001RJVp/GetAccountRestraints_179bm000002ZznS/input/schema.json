@@ -1,0 +1,16 @@
+{
+  "required" : [ "IntegrationProcedureInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureInput" : {
+      "title" : "Integration Procedure Input",
+      "description" : "The input JSON data that requires the user to provide values for AccountId and FinancialAccountId.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedFSCx785fGetAccountRestraintsInput_Data",
+      "einstein:description" : "The input JSON data that requires the user to provide values for AccountId and FinancialAccountId.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

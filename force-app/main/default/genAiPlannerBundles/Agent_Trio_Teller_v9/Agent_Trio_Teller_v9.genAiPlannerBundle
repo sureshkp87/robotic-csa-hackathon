@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Deliver personalized customer interactions with an autonomous AI agent. Agentforce Service Agent intelligently supports your customers with common inquiries and escalates complex issues.</description>
+    <localTopicLinks>
+        <genAiPluginName>Credit_Card_Dispute_16jbm000001Ue5t</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>Get_Financial_Account_Balance_New_16jbm000001Ue5t</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>Get_Financial_Account_Mini_Statement_16jbm000001Ue5t</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>ServiceCustomerVerification_16jbm000001Ue5t</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>agent_router_16jbm000001Ue5t</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>ambiguous_question_16jbm000001Ue5t</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>off_topic_16jbm000001Ue5t</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>Credit_Card_Dispute_16jbm000001Ue5t</fullName>
+        <canEscalate>false</canEscalate>
+        <description>This topic handles all customer requests related to disputing unauthorized, fraudulent, unrecognized, or incorrect credit card transactions. It also handles requests to check dispute status, view provisional credit status, and submit evidence for an existing dispute.</description>
+        <developerName>Credit_Card_Dispute_16jbm000001Ue5t</developerName>
+        <genAiPluginInstructions>
+            <description>You are an AI Agent.</description>
+            <developerName>instruction0_179bm000002ezA6</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179bm000002ezA6</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Check_Dispute_Status_179bm000002ezA6</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Get_Financial_Accounts_New_179bm000002ezA6</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Issue_Provisional_Credit_179bm000002ezA6</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Find_Dispute_Transaction_179bm000002ezA6</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Create_Dispute_179bm000002ezA6</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Extract_Bill_Details_from_Image_179bm000002ezA6</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Check_Dispute_Status_179bm000002ezA6</fullName>
+            <description>Returns current status and stage of a Dispute using standard FSC Dispute object</description>
+            <developerName>Check_Dispute_Status_179bm000002ezA6</developerName>
+            <invocationTarget>CheckDisputeStatusAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Check_Dispute_Status</localDeveloperName>
+            <masterLabel>Check Dispute Status</masterLabel>
+            <progressIndicatorMessage>Checking dispute status....</progressIndicatorMessage>
+            <source>Check_Dispute_Status</source>
+        </localActions>
+        <localActions>
+            <fullName>Extract_Bill_Details_from_Image_179bm000002ezA6</fullName>
+            <description>Saves bill image as Salesforce File on Dispute and extracts amount and date using AI</description>
+            <developerName>Extract_Bill_Details_from_Image_179bm000002ezA6</developerName>
+            <invocationTarget>AIBillExtractAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+            <localDeveloperName>Extract_Bill_Details_from_Image</localDeveloperName>
+            <masterLabel>Extract Bill Details from Image</masterLabel>
+            <source>Extract_Bill_Details_from_Image</source>
+        </localActions>
+        <localActions>
+            <fullName>Create_Dispute_179bm000002ezA6</fullName>
+            <description>Creates a Dispute and DisputeItem using standard FSC Transaction Dispute Management objects</description>
+            <developerName>Create_Dispute_179bm000002ezA6</developerName>
+            <invocationTarget>CreateDisputeAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Create_Dispute</localDeveloperName>
+            <masterLabel>Create Dispute</masterLabel>
+            <progressIndicatorMessage>Creating dispute....</progressIndicatorMessage>
+            <source>Create_Dispute</source>
+        </localActions>
+        <localActions>
+            <fullName>Get_Financial_Accounts_New_179bm000002ezA6</fullName>
+            <description>Fetches all active financial accounts linked to the given Account via FinancialAccountParty</description>
+            <developerName>Get_Financial_Accounts_New_179bm000002ezA6</developerName>
+            <invocationTarget>GetFinancialAccountsActionCust</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Financial_Accounts_New</localDeveloperName>
+            <masterLabel>Get Financial Accounts New</masterLabel>
+            <progressIndicatorMessage>Getting all available accounts...</progressIndicatorMessage>
+            <source>Get_Financial_Accounts_New</source>
+        </localActions>
+        <localActions>
+            <fullName>Find_Dispute_Transaction_179bm000002ezA6</fullName>
+            <description>Finds a matching FinancialAccountTransaction based on amount, merchant keyword and date</description>
+            <developerName>Find_Dispute_Transaction_179bm000002ezA6</developerName>
+            <invocationTarget>FindDisputeTransactionAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Find_Dispute_Transaction</localDeveloperName>
+            <masterLabel>Find Dispute Transaction</masterLabel>
+            <progressIndicatorMessage>Getting dispute data</progressIndicatorMessage>
+            <source>Find_Dispute_Transaction</source>
+        </localActions>
+        <localActions>
+            <fullName>Issue_Provisional_Credit_179bm000002ezA6</fullName>
+            <description>Issues provisional credit transaction and updates DisputeItem using standard FSC fields</description>
+            <developerName>Issue_Provisional_Credit_179bm000002ezA6</developerName>
+            <invocationTarget>IssueProvisionalCreditAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Issue_Provisional_Credit</localDeveloperName>
+            <masterLabel>Issue Provisional Credit</masterLabel>
+            <progressIndicatorMessage>Issuing provisional credit...</progressIndicatorMessage>
+            <source>Issue_Provisional_Credit</source>
+        </localActions>
+        <localDeveloperName>Credit_Card_Dispute</localDeveloperName>
+        <masterLabel>Credit Card Dispute</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>ServiceCustomerVerification_16jbm000001Ue5t</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Verifies the customer’s identity before granting access to sensitive data. Verification is required for inquiries related to orders and order status, deliveries, reservations, password resets, account management (e.g. contact information updates), or cases. Sensitive data includes confidential, private, or security-protected information, such as business-critical data or personally identifiable information (PII).</description>
+        <developerName>ServiceCustomerVerification_16jbm000001Ue5t</developerName>
+        <genAiPluginInstructions>
+            <description>You are an AI Agent.</description>
+            <developerName>instruction0_179bm000002ezA7</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179bm000002ezA7</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Send_SMSOTP_with_Verification_Code_179bm000002ezA7</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Verify_Customer_Via_OTP_179bm000002ezA7</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Verify_Customer_Via_OTP_179bm000002ezA7</fullName>
+            <description>Verifies whether the verification code entered by the user matches the code sent to customer</description>
+            <developerName>Verify_Customer_Via_OTP_179bm000002ezA7</developerName>
+            <invocationTarget>VerifyOTPOfTheCustomer</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Verify_Customer_Via_OTP</localDeveloperName>
+            <masterLabel>Verify Customer Via OTP</masterLabel>
+        </localActions>
+        <localActions>
+            <fullName>Send_SMSOTP_with_Verification_Code_179bm000002ezA7</fullName>
+            <description>Sends a generated verification code to the phone</description>
+            <developerName>Send_SMSOTP_with_Verification_Code_179bm000002ezA7</developerName>
+            <invocationTarget>SendOTPtoCustomer</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Send_SMSOTP_with_Verification_Code</localDeveloperName>
+            <masterLabel>Send SMSOTP with Verification Code</masterLabel>
+        </localActions>
+        <localDeveloperName>ServiceCustomerVerification</localDeveloperName>
+        <masterLabel>Service Customer Verification</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>Get_Financial_Account_Balance_New_16jbm000001Ue5t</fullName>
+        <canEscalate>false</canEscalate>
+        <description>This topic handles all customer requests related to checking, viewing, or inquiring about financial account balances, account summaries, and account details including savings, credit card, checking, and investment accounts.</description>
+        <developerName>Get_Financial_Account_Balance_New_16jbm000001Ue5t</developerName>
+        <genAiPluginInstructions>
+            <description>You are an AI Agent.</description>
+            <developerName>instruction0_179bm000002ezA5</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179bm000002ezA5</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Get_Financial_Accounts_New_179bm000002ezA5</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Get_Account_Balance_NEW_179bm000002ezA5</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Get_Account_Balance_NEW_179bm000002ezA5</fullName>
+            <description>Fetches balance details from FinancialAccountBalance for a given Financial Account</description>
+            <developerName>Get_Account_Balance_NEW_179bm000002ezA5</developerName>
+            <invocationTarget>GetAccountBalanceActionCust</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Account_Balance_NEW</localDeveloperName>
+            <masterLabel>Get Account Balance NEW</masterLabel>
+            <progressIndicatorMessage>Getting the balanc now....</progressIndicatorMessage>
+            <source>Get_Account_Balance_NEW</source>
+        </localActions>
+        <localActions>
+            <fullName>Get_Financial_Accounts_New_179bm000002ezA5</fullName>
+            <description>Fetches all active financial accounts linked to the given Account via FinancialAccountParty</description>
+            <developerName>Get_Financial_Accounts_New_179bm000002ezA5</developerName>
+            <invocationTarget>GetFinancialAccountsActionCust</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Financial_Accounts_New</localDeveloperName>
+            <masterLabel>Get Financial Accounts New</masterLabel>
+            <progressIndicatorMessage>Getting all available accounts...</progressIndicatorMessage>
+            <source>Get_Financial_Accounts_New</source>
+        </localActions>
+        <localDeveloperName>Get_Financial_Account_Balance_New</localDeveloperName>
+        <masterLabel>Get Financial Account Balance New</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>ambiguous_question_16jbm000001Ue5t</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Redirect conversation to relevant topics when user request is too ambiguous</description>
+        <developerName>ambiguous_question_16jbm000001Ue5t</developerName>
+        <genAiPluginInstructions>
+            <description>You are an AI Agent.</description>
+            <developerName>instruction0_179bm000002ezA8</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179bm000002ezA8</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>ambiguous_question</localDeveloperName>
+        <masterLabel>Ambiguous Question</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>off_topic_16jbm000001Ue5t</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Redirect conversation to relevant topics when user request goes off-topic</description>
+        <developerName>off_topic_16jbm000001Ue5t</developerName>
+        <genAiPluginInstructions>
+            <description>You are an AI Agent.</description>
+            <developerName>instruction0_179bm000002ezA9</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179bm000002ezA9</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>off_topic</localDeveloperName>
+        <masterLabel>Off Topic</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>Get_Financial_Account_Mini_Statement_16jbm000001Ue5t</fullName>
+        <canEscalate>false</canEscalate>
+        <description>This topic handles all customer requests to view recent transactions, transaction history, mini statement, last transactions, or account activity for a financial account.</description>
+        <developerName>Get_Financial_Account_Mini_Statement_16jbm000001Ue5t</developerName>
+        <genAiPluginInstructions>
+            <description>You are an AI Agent.</description>
+            <developerName>instruction0_179bm000002ezAB</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179bm000002ezAB</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Get_Financial_Accounts_New_179bm000002ezAB</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Get_Mini_Statement_179bm000002ezAB</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Get_Financial_Accounts_New_179bm000002ezAB</fullName>
+            <description>Fetches all active financial accounts linked to the given Account via FinancialAccountParty</description>
+            <developerName>Get_Financial_Accounts_New_179bm000002ezAB</developerName>
+            <invocationTarget>GetFinancialAccountsActionCust</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Financial_Accounts_New</localDeveloperName>
+            <masterLabel>Get Financial Accounts New</masterLabel>
+            <progressIndicatorMessage>Getting all available accounts...</progressIndicatorMessage>
+            <source>Get_Financial_Accounts_New</source>
+        </localActions>
+        <localActions>
+            <fullName>Get_Mini_Statement_179bm000002ezAB</fullName>
+            <description>Fetches the last 5 transactions for a given Financial Account</description>
+            <developerName>Get_Mini_Statement_179bm000002ezAB</developerName>
+            <invocationTarget>GetMiniStatementAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Mini_Statement</localDeveloperName>
+            <masterLabel>Get Mini Statement</masterLabel>
+            <progressIndicatorMessage>Getting the mini statement</progressIndicatorMessage>
+            <source>Get_Mini_Statement</source>
+        </localActions>
+        <localDeveloperName>Get_Financial_Account_Mini_Statement</localDeveloperName>
+        <masterLabel>Get Financial Account Mini Statement</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <localTopics>
+        <fullName>agent_router_16jbm000001Ue5t</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Welcome the user and determine the appropriate subagent based on user input</description>
+        <developerName>agent_router_16jbm000001Ue5t</developerName>
+        <genAiPluginInstructions>
+            <description>You are an AI Agent.
+
+{{state.AgentScriptInternal_agent_instructions}}</description>
+            <developerName>instruction0_179bm000002ezAA</developerName>
+            <language>en_US</language>
+            <masterLabel>instruction0_179bm000002ezAA</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localDeveloperName>agent_router</localDeveloperName>
+        <masterLabel>Agent Router</masterLabel>
+        <pluginType>Topic</pluginType>
+    </localTopics>
+    <masterLabel>Agent Trio Teller</masterLabel>
+    <plannerType>Atlas__ConcurrentMultiAgentOrchestration</plannerType>
+</GenAiPlannerBundle>

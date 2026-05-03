@@ -1,0 +1,37 @@
+{
+  "required" : [ "financialAccountId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "amount" : {
+      "title" : "Disputed Amount",
+      "description" : "disputed amount",
+      "multipleOf" : 1.0E-34,
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "financialAccountId" : {
+      "title" : "Financial Account Id",
+      "description" : "Financial Account Id",
+      "lightning:type" : "lightning__recordIdType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "keyword" : {
+      "title" : "Merchant Name or Description Keyword",
+      "description" : "Description of the transaction",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "transactionDate" : {
+      "title" : "Transaction Date",
+      "description" : "Date of transaction",
+      "lightning:type" : "lightning__dateType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

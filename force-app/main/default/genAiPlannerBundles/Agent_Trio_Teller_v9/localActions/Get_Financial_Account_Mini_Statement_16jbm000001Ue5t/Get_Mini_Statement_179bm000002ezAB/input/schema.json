@@ -1,0 +1,15 @@
+{
+  "required" : [ "financialAccountId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "financialAccountId" : {
+      "title" : "Financial Account Id",
+      "description" : "The Salesforce Id of the Financial Account",
+      "lightning:type" : "lightning__recordIdType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

@@ -1,0 +1,56 @@
+{
+  "required" : [ "contactId", "disputedAmount", "financialAccountId", "merchantName", "transactionDate", "transactionId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "contactId" : {
+      "title" : "Contact Id",
+      "description" : "contactId",
+      "lightning:type" : "lightning__recordIdType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "disputedAmount" : {
+      "title" : "Disputed Amount",
+      "description" : "disputed Amount",
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "financialAccountId" : {
+      "title" : "Financial Account Id",
+      "description" : "financial Account Id",
+      "lightning:type" : "lightning__recordIdType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "merchantName" : {
+      "title" : "Merchant Name",
+      "description" : "merchant Name",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "reasonDescription" : {
+      "title" : "Customer Reason Description",
+      "description" : "reason Description",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "transactionDate" : {
+      "title" : "Transaction Date",
+      "description" : "transaction Date",
+      "lightning:type" : "lightning__dateType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "transactionId" : {
+      "title" : "Transaction Id",
+      "description" : "transaction Id",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

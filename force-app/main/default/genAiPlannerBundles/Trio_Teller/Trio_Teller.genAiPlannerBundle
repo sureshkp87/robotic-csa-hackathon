@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlannerBundle xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Deliver AI-powered customer service for service processes across multiple channels. This agent template supports customers with routine tasks such as case creation, inquiries, and policy checks for banking inquiries.</description>
+    <localActionLinks>
+        <genAiFunctionName>AnswerQuestionsWithKnowledge_16jbm000001RJVp</genAiFunctionName>
+    </localActionLinks>
+    <localTopicLinks>
+        <genAiPluginName>AddressUpdateRequest_16jbm000001RJVp</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>CardLockManagementRequest_16jbm000001RJVp</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>CaseManagement_16jbm000001RJVp</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>FeeReversalRequest_16jbm000001RJVp</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>FinclAcctBalancesRequest_16jbm000001RJVp</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>FinclAcctStatementRequest_16jbm000001RJVp</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>FinclAcctTransactionsRequest_16jbm000001RJVp</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>FundsTfrToOwnAcctRequest_16jbm000001RJVp</genAiPluginName>
+    </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>ReportCreditOrDebitCardRequest_16jbm000001RJVp</genAiPluginName>
+    </localTopicLinks>
+    <localTopics>
+        <fullName>FundsTfrToOwnAcctRequest_16jbm000001RJVp</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Helps customers set up fund transfers between their savings and deposit accounts within the same bank, including Own Account Transfers, Loan Payments, and Credit Card Payments. Supports configuring both one-time and recurring transfers by verifying account details, specifying transfer amounts, currency code and gathering necessary information for accurate and efficient setup. Creates a case for seamless service throughout the process.</description>
+        <developerName>FundsTfrToOwnAcctRequest_16jbm000001RJVp</developerName>
+        <genAiPluginInstructions>
+            <description>When a customer requests for funds transfer and transferCategory is already in intent/context, use it. If missing, explicitly ask the customer to select one of the following (exact names): 1. Own Account Transfer 2. Loan Payment 3. Credit Card Payment. Always pass the exact Transfer Category (not topic name) to GetTopicConfig and other downstream actions.</description>
+            <developerName>identifytransfercategory</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>identify-transfer-category</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Call GetTopicConfig twice: once with transferCategory + &apos; - Source&apos; to retrieve FinancialAccountConfig and FinancialAccountBalanceTypes for Source, and once with transferCategory + &apos; - Target&apos; to retrieve FinancialAccountConfig and FinancialAccountBalanceTypes for Target. These configs must be stored in context and reused later when fetching accounts and balances. Call GetAccountRestraints in parallel with GetTopicConfig, passing AccountId as input. Store results in context. If an **Account-level** restraint exists → stop the process and inform the customer that transfers are not allowed for this account. If only **Financial Account-level** restraints exist → continue the process, but proceed with a warning. Apply these restraints only by restricting the selection of the corresponding financial accounts.</description>
+            <developerName>executeaccountrestraints</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>execute-account-restraints</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Use GetFinclAccountsForAnAcct with parameters from Source FinancialAccountConfig (Roles, Status, Types, isHeldAway). Present results as a numbered list for selection. If a selected source financial account is restrained, prompt for reselection until valid. Once the source account is identified, call GetBalancesFromFinancialAccounts with financialAccountBalanceTypes from Source FinancialAccountBalancesConfig, store balances in context, and use them later to validate that the payment amount does not exceed available balance. If it does, notify the customer but continue the process.</description>
+            <developerName>identifysourceaccount</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>identify-source-account</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Use GetFinclAccountsForAnAcct with Target FinancialAccountConfig and present accounts as a numbered list, applying the same restraint checks as above. Once the target financial account is identified, call GetBalancesFromFinancialAccounts with financialAccountBalanceTypes from Target FinancialAccountBalancesConfig, store balances, and present them to the customer as a numbered list of options plus a &apos;Custom Amount&apos; choice. Ask the customer to select one.</description>
+            <developerName>identifytargetaccount</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>identify-target-account</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the transfer category, source account, and target account are identified—if not already in context, ask for payment option: 1. One-time 2. Recurring. If Recurring, ask for Recurring Type: 1. Duration-based 2. Installment-based.</description>
+            <developerName>identifypaymenttype</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>identify-payment-type</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If not already in context, always ask the customer to select one of the following exactly as numbered options: 1. One-time 2. Recurring. If One-time: ask sequentially for Transfer Date (YYYY-MM-DD, must be future dated), Amount (if not already chosen), and Remarks (optional). If Recurring: first ask which Recurring Payment Option: 1. Duration-based 2. Installment-based. For Duration-based: ask for Start Date, End Date (after start date), Frequency, and Remarks. For Installment-based: ask for Start Date, Frequency, Installment Count, and Remarks. Always prompt step-by-step, one field at a time. Never ask all inputs in a single message.</description>
+            <developerName>collectpaymentdetails</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>collect-payment-details</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Call CreateCaseForTransferFunds with all gathered details: sourceFinancialAccount, targetFinancialAccount, transferAmount, currencyCode, transferCategory, paymentOption, recurringPaymentOption, startDate, endDate, installmentCount, frequency, and remarks. After creating the case, inform the customer that their fund transfer request has been submitted and will be processed by the appropriate team. Display the case number for customer reference. In case, output of CreateCaseForTransferFunds action is null or empty, inform the customer that your request cannot be processed right now, try again later.</description>
+            <developerName>createacase</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>create-a-case</masterLabel>
+            <sortOrder>6</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After data collection, you must display ONE comprehensive confirmation message listing Source and Target Financial account details, Transaction details and remarks, which were displayed and collected. Duplicate and present the information with headings and details next to it. After displaying this single confirmation, ask the customer ONE TIME if all details are correct. Upon receiving confirmation, immediately submit the request without any additional prompts or confirmations.</description>
+            <developerName>caseconfirmationdetails</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>case-confirmation-details</masterLabel>
+            <sortOrder>7</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>GetAccountRestraints_179bm000002ZznS</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetBalancesFromFinancialAccounts_179bm000002ZznS</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetFinclAccountsForAnAcct_179bm000002ZznS</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetTopicConfig_179bm000002ZznS</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>CreateCaseForTransferFunds_179bm000002ZznS</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>GetTopicConfig_179bm000002ZznS</fullName>
+            <description>Retrieves the configuration of a topic.</description>
+            <developerName>GetTopicConfig_179bm000002ZznS</developerName>
+            <invocationTarget>FileBased__Topic_Config_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetTopicConfig</localDeveloperName>
+            <masterLabel>Get Topic Configuration</masterLabel>
+            <progressIndicatorMessage>Getting config</progressIndicatorMessage>
+            <source>fscs_agent_pc__GetTopicConfig</source>
+        </localActions>
+        <localActions>
+            <fullName>CreateCaseForTransferFunds_179bm000002ZznS</fullName>
+            <description>Creates a case to transfer funds between the customer’s financial accounts within the same bank or financial institution.</description>
+            <developerName>CreateCaseForTransferFunds_179bm000002ZznS</developerName>
+            <invocationTarget>FileBased__TransferFundsToOwnAccount_CreateCase_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>CreateCaseForTransferFunds</localDeveloperName>
+            <masterLabel>Create Case For Transfer Funds</masterLabel>
+            <progressIndicatorMessage>Creating your case</progressIndicatorMessage>
+            <source>financialservicescopilot__CreateCaseForTransferFunds</source>
+        </localActions>
+        <localActions>
+            <fullName>GetBalancesFromFinancialAccounts_179bm000002ZznS</fullName>
+            <description>Retrieves the financial account balances associated with a specific financial account.</description>
+            <developerName>GetBalancesFromFinancialAccounts_179bm000002ZznS</developerName>
+            <invocationTarget>FileBased__FSC_GetFinancialAccountBalances_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetBalancesFromFinancialAccounts</localDeveloperName>
+            <masterLabel>Get Financial Account Balances</masterLabel>
+            <progressIndicatorMessage>Getting account balances</progressIndicatorMessage>
+            <source>financialservicescopilot__GetBalancesFromFinancialAccounts</source>
+        </localActions>
+        <localActions>
+            <fullName>GetFinclAccountsForAnAcct_179bm000002ZznS</fullName>
+            <description>Retrieves the information of all financial accounts associated with a specific account.</description>
+            <developerName>GetFinclAccountsForAnAcct_179bm000002ZznS</developerName>
+            <invocationTarget>FileBased__FSC_GetFA_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetFinclAccountsForAnAcct</localDeveloperName>
+            <masterLabel>Get Financial Accounts Information for an Account</masterLabel>
+            <progressIndicatorMessage>Getting financial accounts</progressIndicatorMessage>
+            <source>financialservicescopilot__GetFinclAccountsForAnAcct</source>
+        </localActions>
+        <localActions>
+            <fullName>GetAccountRestraints_179bm000002ZznS</fullName>
+            <description>Retrieves the financial account restraints associated with a financial account or person account.</description>
+            <developerName>GetAccountRestraints_179bm000002ZznS</developerName>
+            <invocationTarget>FileBased__FSC_GetAccountRestraints_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetAccountRestraints</localDeveloperName>
+            <masterLabel>Get Account Restraints</masterLabel>
+            <progressIndicatorMessage>Getting Account Restraints</progressIndicatorMessage>
+            <source>fscs_agent_pc__GetAccountRestraints</source>
+        </localActions>
+        <localDeveloperName>FundsTfrToOwnAcctRequest</localDeveloperName>
+        <masterLabel>Funds Transfer To Own Account Request</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to help customers transfer funds between their financial accounts, which could include a regular transfer, loan payment, or credit card payment. Based on this, filter and present the appropriate destination (target) account types. Then, guide the customer through selecting eligible source and target accounts, specifying amount, currency code and payment schedule (one-time or recurring), and submitting the request. Ensure constraints, balances, and formatting are handled per the account type. For payment accounts (Loans, Credit Cards), support balance-based payment options.</scope>
+        <source>financialservicescopilot__FundsTfrToOwnAcctRequest</source>
+    </localTopics>
+    <localTopics>
+        <fullName>FinclAcctStatementRequest_16jbm000001RJVp</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Helps customers request copies of their checking or savings account statements. Collects details such as the selected account, statement period (predefined or custom dates), and delivery method (Email or Post). Confirms all details of the request and creates a case for fulfillment.</description>
+        <developerName>FinclAcctStatementRequest_16jbm000001RJVp</developerName>
+        <genAiPluginInstructions>
+            <description>If a customer requests for account statement copies, fetch the topic config by passing “FinclAcctStatementRequest” as input to the GetTopicConfig action.</description>
+            <developerName>gettopicconfig</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>get-topic-config</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the topic config is fetched, retrieve and show the details of all financial accounts associated with the customer&apos;s account. Use the GetFinclAccountsForAnAcct action to retrieve a list of customer&apos;s financial accounts. If only one financial account is present, proceed automatically with that financial account. Always populate the input fields &apos;Roles&apos;,&apos;Status&apos;,&apos;Types&apos; and &apos;isHeldAway&apos; of GetFinclAccountsForAnAcct action using &apos;FinancialAccountConfig&apos; from the output of GetTopicConfig action JSON. Inquire the customer using list items to select one financial account. Help the customer to choose a specific, unique Financial Account by providing additional distinguishing details, such as FinancialAccountName, FinancialAccountNumber, FinancialAccountType to make their choice clear.</description>
+            <developerName>executegetfinancialaccountsactiontoidentifyfinancialaccount</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>execute-get-financial-accounts-action-to-identify-financial-account</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the financial account is identified, always display the selected account information in a natural-language sentence, for example: I see that your selected account has the following details: FinancialAccountName: {FinancialAccountName}, FinancialAccountNumber: {FinancialAccountNumber}, Type: {FinancialAccountType} strictly in a single line separated by commas and ask them to choose a duration if not already provided from five options in a numerical selection format: Last month, Last 3 months, Last 6 months, Last year, or Custom. If they select Custom, ask them to provide a start date and end date (MM/DD/YYYY), always make sure the end date is after the start date and both dates MUST be in the past. Set the Duration (e.g., &apos;Last month&apos;, &apos;Custom&apos;) for create case action. Do not allow custom dates that are more than 5 years old.</description>
+            <developerName>askfordurationorcustomdates</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>ask-for-duration-or-custom-dates</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After determining the statement period, prompt the customer to choose their preferred delivery method for the account statement request if not already provided. Options: &apos;Via Post&apos;, &apos;Via Email&apos;, or &apos;Both&apos;.</description>
+            <developerName>askfordeliverypreference</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>ask-for-delivery-preference</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Collect delivery details based on the selected delivery preference method for account statement request:
+If &apos;Both&apos;:
+  - Set ViaEmail to &apos;Yes&apos; and ViaPost to &apos;Yes&apos;.
+  - You MUST collect both postal and email addresses if not already provided.
+  - Ask the customer to choose a postal address using the &apos;GetFinancialAccountAddresses&apos; action.
+  - Populate &apos;Roles&apos;, &apos;AddressTypes&apos;, and &apos;IncludeAllAddress&apos; using &apos;FinancialAccountAddressConfig&apos; from the &apos;GetTopicConfig&apos; output.
+  - Combine &apos;customerLevelAddresses&apos; and &apos;FinancialAccountAddress&apos; into a unified list. Display the unified list in a number format.
+  - Display each address in a compact single-line format.
+  - After selection, ask for the delivery type: &apos;Standard&apos; or &apos;Express&apos;.
+  - After collecting the postal address and delivery type, prompt the customer to provide a valid email address.
+If &apos;Via Post&apos;:
+  - Set ViaPost to &apos;Yes&apos; and ViaEmail to &apos;No&apos;.
+  - You MUST collect the postal address if not already provided.
+  - Ask the customer to choose a postal address using the &apos;GetFinancialAccountAddresses&apos; action.
+      - Populate &apos;Roles&apos;, &apos;AddressTypes&apos;, and &apos;IncludeAllAddress&apos; using &apos;FinancialAccountAddressConfig&apos; from the &apos;GetTopicConfig&apos; output.
+      - Combine &apos;customerLevelAddresses&apos; and &apos;FinancialAccountAddress&apos; into a unified list. Display the unified list in a number format.
+      - Display each address in a compact single-line format.
+      - After selection, ask for the delivery type: &apos;Standard&apos; or &apos;Express&apos;.
+If &apos;Via Email&apos;:
+  - Set ViaEmail to &apos;Yes&apos; and ViaPost to &apos;No&apos;.
+  - Prompt the customer to provide a valid email address if not already provided.</description>
+            <developerName>collectdeliverydetails</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>collect-delivery-details</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the collection of delivery preference and delivery details, create a case for requesting statement copies using the CreateCaseForRequestStatementCopies action. Pass the duration, start date, end date, and the SelectedFinancialAccount (from the selected financial account details) as inputs to this action. After creating the case, inform the customer that their account statement request has been submitted and will be processed by the appropriate team. Provide a case number to the customer for reference. In case, output of CreateCaseForRequestStatementCopies action is null, inform customer that your request cannot be processed right now, try again later.</description>
+            <developerName>executecreatecaseaction</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>execute-create-case-action</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After data collection, you must display ONE comprehensive confirmation message listing Financial account details, duration and delivery method, which were displayed and collected. Duplicate and present the information with headings and details next to it. After displaying this single confirmation, ask the customer ONE TIME if all details are correct. Upon receiving confirmation, immediately submit the request without any additional prompts or confirmations.</description>
+            <developerName>caseconfirmationdetails</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>case-confirmation-details</masterLabel>
+            <sortOrder>6</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>GetFinclAccountsForAnAcct_179bm000002ZznR</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetTopicConfig_179bm000002ZznR</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetFinancialAccountAddresses_179bm000002ZznR</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>CreateCaseForRequestStatementCopies_179bm000002ZznR</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>CreateCaseForRequestStatementCopies_179bm000002ZznR</fullName>
+            <description>Creates a case to process a request for copies of a financial account statement.</description>
+            <developerName>CreateCaseForRequestStatementCopies_179bm000002ZznR</developerName>
+            <invocationTarget>FileBased__RequestStatementCopies_CreateCase_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>CreateCaseForRequestStatementCopies</localDeveloperName>
+            <masterLabel>Create Case For Request Statement Copies</masterLabel>
+            <progressIndicatorMessage>Creating your case</progressIndicatorMessage>
+            <source>fscs_agent_pc__CreateCaseForRequestStatementCopies</source>
+        </localActions>
+        <localActions>
+            <fullName>GetTopicConfig_179bm000002ZznR</fullName>
+            <description>Retrieves the configuration of a topic.</description>
+            <developerName>GetTopicConfig_179bm000002ZznR</developerName>
+            <invocationTarget>FileBased__Topic_Config_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetTopicConfig</localDeveloperName>
+            <masterLabel>Get Topic Configuration</masterLabel>
+            <progressIndicatorMessage>Getting config</progressIndicatorMessage>
+            <source>fscs_agent_pc__GetTopicConfig</source>
+        </localActions>
+        <localActions>
+            <fullName>GetFinancialAccountAddresses_179bm000002ZznR</fullName>
+            <description>Retrieves the address details associated with a specific account or financial account.</description>
+            <developerName>GetFinancialAccountAddresses_179bm000002ZznR</developerName>
+            <invocationTarget>FileBased__FSC_GetAccountAddress_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetFinancialAccountAddresses</localDeveloperName>
+            <masterLabel>Get Financial Account Addresses</masterLabel>
+            <progressIndicatorMessage>Getting address details</progressIndicatorMessage>
+            <source>financialservicescopilot__GetFinancialAccountAddresses</source>
+        </localActions>
+        <localActions>
+            <fullName>GetFinclAccountsForAnAcct_179bm000002ZznR</fullName>
+            <description>Retrieves the information of all financial accounts associated with a specific account.</description>
+            <developerName>GetFinclAccountsForAnAcct_179bm000002ZznR</developerName>
+            <invocationTarget>FileBased__FSC_GetFA_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetFinclAccountsForAnAcct</localDeveloperName>
+            <masterLabel>Get Financial Accounts Information for an Account</masterLabel>
+            <progressIndicatorMessage>Getting financial accounts</progressIndicatorMessage>
+            <source>financialservicescopilot__GetFinclAccountsForAnAcct</source>
+        </localActions>
+        <localDeveloperName>FinclAcctStatementRequest</localDeveloperName>
+        <masterLabel>Financial Account Statement Request</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your role is to guide customers through the process of requesting physical or digital copies of their account statements, ensuring all required information is collected accurately. You are responsible for: * Account Selection: Accurately identifying the specific checking or savings account for the statement request. * Duration and Date Handling: Helping the customer define the statement period, whether through a predefined duration (e.g., last 6 months) or a custom date range, and ensuring all provided dates are valid. * Delivery Management: Assisting the customer in selecting a delivery method (Email or Post) and confirming the destination address or email. * Confirmation and Case Creation: Summarizing the complete request (account, duration, delivery method) for the customer&apos;s final approval before submitting the case and providing a case number for reference.</scope>
+        <source>fscs_agent_pc__FinclAcctStatementRequest</source>
+    </localTopics>
+    <localTopics>
+        <fullName>CaseManagement_16jbm000001RJVp</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Handles customer inquiries and actions related to support cases, including providing case information, updating existing cases, and creating new cases.</description>
+        <developerName>CaseManagement_16jbm000001RJVp</developerName>
+        <genAiPluginInstructions>
+            <description>Always format any dates in a human readable format</description>
+            <developerName>Instruction1</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction1</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Do not ever show the Case Id to a customer</description>
+            <developerName>Instruction2</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction2</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If the customer is not known, always ask for their email address and get their Contact record before running any other actions.</description>
+            <developerName>Instruction3</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction3</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When adding a comment to a case, first retrieve the case details using the case number, ask the user for the exact comment they would like to add and only then add it.</description>
+            <developerName>Instruction4</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction4</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When sharing case details with the customer, show the following properties as an itemized list :Case number, Subject, Description, and Status. The Subject must exactly match the value stored in the case record. Do not rephrase or regenerate it.</description>
+            <developerName>Instruction5</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction5</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>A case is a record used to help track a customer&apos;s issues. Customers may have questions about the status of the issue or want to provide more information for the case. Cases are usually associated with a contact. Comments are added to provide new information.</description>
+            <developerName>Instruction6</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction6</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Use the Answer Questions with Knowledge action to answer troubleshooting questions.</description>
+            <developerName>Instruction7</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction7</masterLabel>
+            <sortOrder>6</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Acknowledge and validate user concerns with empathy and professionalism.</description>
+            <developerName>Instruction8</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction8</masterLabel>
+            <sortOrder>7</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When a customer asks you to create a case, please summarize the current conversation. The subject should be less than 7 words and function as a high level overview of what the customer inquired about. The description should be no more than 3 sentences and should provide more depth about what exactly the customer asked, important data, and any other relevant information to help a customer service representative understand the context of this conversation.</description>
+            <developerName>Instruction9</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction9</masterLabel>
+            <sortOrder>8</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When sharing the Description field from a case record with the customer, summarize it into a condensed, conversational version that is no more than 3 sentences. The summary must preserve all important factual content and intent from the original case description, and must not introduce any new or misleading information.</description>
+            <developerName>Instruction10</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Instruction10</masterLabel>
+            <sortOrder>9</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>CreateCaseEnhancedData_179bm000002eczt</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>AnswerQuestionsWithKnowledge_179bm000002eczt</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>AddCaseComment_179bm000002eczt</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetCaseByVerifiedCaseNumber_179bm000002eczt</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetCasesForVerifiedContact_179bm000002eczt</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>AddCaseComment_179bm000002eczt</fullName>
+            <description>Let a customer add a comment to an existing case.</description>
+            <developerName>AddCaseComment_179bm000002eczt</developerName>
+            <invocationTarget>SvcCopilotTmpl__AddCaseComment</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>AddCaseComment</localDeveloperName>
+            <masterLabel>Add Case Comment</masterLabel>
+            <source>SvcCopilotTmpl__AddCaseComment</source>
+        </localActions>
+        <localActions>
+            <fullName>AnswerQuestionsWithKnowledge_179bm000002eczt</fullName>
+            <description>Answers questions about company policies and procedures, troubleshooting steps, or product information. For example: “What is your return policy?” “How do I fix an issue?” or “What features does a product have?”</description>
+            <developerName>AnswerQuestionsWithKnowledge_179bm000002eczt</developerName>
+            <invocationTarget>streamKnowledgeSearch</invocationTarget>
+            <invocationTargetType>standardInvocableAction</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>AnswerQuestionsWithKnowledge</localDeveloperName>
+            <masterLabel>Answer Questions with Knowledge</masterLabel>
+            <progressIndicatorMessage>Getting answers</progressIndicatorMessage>
+            <source>EmployeeCopilot__AnswerQuestionsWithKnowledge</source>
+        </localActions>
+        <localActions>
+            <fullName>GetCasesForVerifiedContact_179bm000002eczt</fullName>
+            <description>Returns a list of cases related to a given Contact ID.</description>
+            <developerName>GetCasesForVerifiedContact_179bm000002eczt</developerName>
+            <invocationTarget>SvcCopilotTmpl__GetCasesVrfyCtct</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetCasesForVerifiedContact</localDeveloperName>
+            <masterLabel>Get Cases For Verified Contact</masterLabel>
+            <source>SvcCopilotTmpl__GetCasesForVerifiedContact</source>
+        </localActions>
+        <localActions>
+            <fullName>GetCaseByVerifiedCaseNumber_179bm000002eczt</fullName>
+            <description>Returns a case associated with a given contact ID and case number.</description>
+            <developerName>GetCaseByVerifiedCaseNumber_179bm000002eczt</developerName>
+            <invocationTarget>SvcCopilotTmpl__GetCaseByVrfyCaseNbr</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetCaseByVerifiedCaseNumber</localDeveloperName>
+            <masterLabel>Get Case By Verified Case Number</masterLabel>
+            <source>SvcCopilotTmpl__GetCaseByVerifiedCaseNumber</source>
+        </localActions>
+        <localActions>
+            <fullName>CreateCaseEnhancedData_179bm000002eczt</fullName>
+            <description>Create a case for the customer that&apos;s transferred from the AI agent to a service rep. The case includes all information gathered from the customer, a summary of the progress made by the AI agent, a link to the conversation, and any attachments.</description>
+            <developerName>CreateCaseEnhancedData_179bm000002eczt</developerName>
+            <invocationTarget>SvcCopilotTmpl__CreateCaseEnhancedData</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>CreateCaseEnhancedData</localDeveloperName>
+            <masterLabel>Create Case with Enhanced Data</masterLabel>
+            <source>SvcCopilotTmpl__CreateCaseEnhancedData</source>
+        </localActions>
+        <localDeveloperName>CaseManagement</localDeveloperName>
+        <masterLabel>Case Management</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to help customers retrieve case information, update case comments, and create new cases based on customer requests.</scope>
+        <source>SvcCopilotTmpl__CaseManagement</source>
+    </localTopics>
+    <localTopics>
+        <fullName>FeeReversalRequest_16jbm000001RJVp</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Helps customers reverse the fees charged to their financial accounts, such as maintenance fees, overdraft fees, and other service-related fees.</description>
+        <developerName>FeeReversalRequest_16jbm000001RJVp</developerName>
+        <genAiPluginInstructions>
+            <description>When a customer asks for a fee reversal, fetch the topic config by passing “FeeReversalRequest” as input to the GetTopicConfig action.</description>
+            <developerName>gettopicconfig</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>get-topic-config</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the topic config is retrieved, show the customer’s financial account details. Use the GetFinclAccountsForAnAcct action to retrieve the financial accounts associated with the customer. Always populate the input fields &apos;Roles&apos;,&apos;Status&apos;,&apos;Types&apos; and &apos;isHeldAway&apos; of GetFinclAccountsForAnAcct action using &apos;FinancialAccountConfig&apos; from the output of GetTopicConfig action JSON. Inquire the customer using list items to select one financial account. Help the customer to choose a specific, unique Financial Account by providing additional distinguishing details, such as FinancialAccountName, FinancialAccountNumber, FinancialAccountType to make their choice clear. IMPORTANT -  Never show the list of financial accounts as radio buttons.</description>
+            <developerName>getfinancialaccounts</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>get-financial-accounts</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the financial account is selected, get the full list of transactions by using the GetFinancialTransactions action. This includes details like type, amount, and TransactionPostedDate for each transaction. Always populate the input field &apos;transactionType&apos; of GetFinancialTransactions action using &apos;FinancialAccountTransactionsConfig&apos; from the output of GetTopicConfig action JSON. Inquire the customer using list items to select one transaction. Help the customer to choose a specific, unique Financial Account Transactions by providing additional distinguishing details, such as TransactionAmount, TransactionAmountCurrency, TransactionDescription, TransactionId, Subtype to make their choice clear.</description>
+            <developerName>getfinancialaccounttransactions</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>get-financial-account-transactions</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the transaction is selected, ask the customer about the reversal reason. CRITICAL - don&apos;t assume values for ReversalReason, always ask the customer for the reason for reversal.</description>
+            <developerName>inquirereversalreason</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>inquire-reversal-reason</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After gathering all the details proceed with fee reversal and case creation using FulfillFeeReversal action. If fulfillment was successful then tell the customer that the fee associated with the transaction has been successfully reversed and a closed case has been created. If fulfillment was not successful then update that request has been submitted and will be processed by the appropriate team. Display the case number for customer reference. Also inform the customer if the fee was eligible for reversal without showing the reason.</description>
+            <developerName>fulfillfeereversal</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>fulfill-fee-reversal</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After data collection, you must display ONE comprehensive confirmation message listing Financial Account details, Transaction details and reason, which were displayed and collected. Duplicate and present the information with headings and details next to it. After displaying this single confirmation, ask the customer ONE TIME if all details are correct. Upon receiving confirmation, immediately submit the request without any additional prompts or confirmations.</description>
+            <developerName>caseconfirmationdetails</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>case-confirmation-details</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>FulfillFeeReversal_179bm000002ZznU</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetTopicConfig_179bm000002ZznU</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetFinclAccountsForAnAcct_179bm000002ZznU</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetFinancialTransactions_179bm000002ZznU</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>GetFinancialTransactions_179bm000002ZznU</fullName>
+            <description>Retrieves all financial account transactions associated with a specific financial account. Displays a maximum of 10 transactions in a single view.</description>
+            <developerName>GetFinancialTransactions_179bm000002ZznU</developerName>
+            <invocationTarget>FileBased__FSC_GetFinancialAccountTransactions_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetFinancialTransactions</localDeveloperName>
+            <masterLabel>Get Financial Account Transactions</masterLabel>
+            <progressIndicatorMessage>Getting transactions</progressIndicatorMessage>
+            <source>financialservicescopilot__GetFinancialTransactions</source>
+        </localActions>
+        <localActions>
+            <fullName>GetTopicConfig_179bm000002ZznU</fullName>
+            <description>Retrieves the configuration of a topic.</description>
+            <developerName>GetTopicConfig_179bm000002ZznU</developerName>
+            <invocationTarget>FileBased__Topic_Config_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetTopicConfig</localDeveloperName>
+            <masterLabel>Get Topic Configuration</masterLabel>
+            <progressIndicatorMessage>Getting config</progressIndicatorMessage>
+            <source>fscs_agent_pc__GetTopicConfig</source>
+        </localActions>
+        <localActions>
+            <fullName>GetFinclAccountsForAnAcct_179bm000002ZznU</fullName>
+            <description>Retrieves the information of all financial accounts associated with a specific account.</description>
+            <developerName>GetFinclAccountsForAnAcct_179bm000002ZznU</developerName>
+            <invocationTarget>FileBased__FSC_GetFA_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetFinclAccountsForAnAcct</localDeveloperName>
+            <masterLabel>Get Financial Accounts Information for an Account</masterLabel>
+            <progressIndicatorMessage>Getting financial accounts</progressIndicatorMessage>
+            <source>financialservicescopilot__GetFinclAccountsForAnAcct</source>
+        </localActions>
+        <localActions>
+            <fullName>FulfillFeeReversal_179bm000002ZznU</fullName>
+            <description>Fulfills Fee Reversal request and autocloses the case</description>
+            <developerName>FulfillFeeReversal_179bm000002ZznU</developerName>
+            <invocationTarget>FileBased__FSC_FulfillFeeReversal_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>FulfillFeeReversal</localDeveloperName>
+            <masterLabel>Fulfill FeeReversal</masterLabel>
+            <progressIndicatorMessage>Creating your case</progressIndicatorMessage>
+            <source>fscs_agent_pc__FulfillFeeReversal</source>
+        </localActions>
+        <localDeveloperName>FeeReversalRequest</localDeveloperName>
+        <masterLabel>Fee Reversal Request (Beta)</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to help customers reverse various types of fees on their financial accounts. This may include collecting the financial account details, displaying all relevant fee transactions, and helping the customer choose the specific transaction they want to reverse. You should focus on ensuring the correct transaction is selected and the reversal request is properly submitted for processing.</scope>
+        <source>financialservicescopilot__FeeReversalRequest</source>
+    </localTopics>
+    <localTopics>
+        <fullName>AddressUpdateRequest_16jbm000001RJVp</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Helps customers update their account-related and financial account-related addresses.</description>
+        <developerName>AddressUpdateRequest_16jbm000001RJVp</developerName>
+        <genAiPluginInstructions>
+            <description>When a customer asks for address update, fetch the topic config by passing “AddressUpdateRequest” as input to the GetTopicConfig action.</description>
+            <developerName>gettopicconfig</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>get-topic-config</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the topic config is fetched, retrieve and display all addresses associated with the customer’s account and financial accounts in a single numbered list. Use the GetFinancialAccountAddresses action to retrieve a list of addresses. Always populate the input fields &apos;Roles&apos;,&apos;AddressTypes&apos;,&apos;IncludeAllAddress&apos; of GetFinancialAccountAddresses action using &apos;FinancialAccountAddressConfig&apos; from the output of GetTopicConfig action JSON. Don&apos;t show in radio button format.</description>
+            <developerName>executegetfinancialaccountaddressesactiontofetchalladdresses</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>execute-get-financial-account-addresses-action-to-fetch-all-addresses</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the customer has selected an address, always ask for new address details i.e., Address Line 1, Address Line 2, City, State, Country, Postal Code, and Effective Date of Change. Ensure that the Effective Date of Change is in &apos;YYYY-MM-DD&apos; format. CRITICAL - ALWAYS make sure that the Effective Date of Change is NOT in the past.</description>
+            <developerName>askfornewaddressdetails</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>ask-for-new-address-details</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the customer has entered new address details, create a case for updating address using the CreateCaseForFinclAcctAddrUpdt action. Use the new address details entered by the customer i.e., Address Line 1, Address Line 2, City, State, Country, Postal Code, and Effective Date of Change. Always use &apos;AddressType&apos; for &apos;customerLevelAddresses&apos;, else always use &apos;FinancialAccountId&apos; for &apos;FinancialAccounts&apos;.</description>
+            <developerName>executecreatecaseaction</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>execute-create-case-action</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After creating the case, inform the customer that their address update request has been submitted and will be processed by the appropriate team. Display the case number for customer reference.</description>
+            <developerName>customerintimation</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>customer-intimation</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After data collection, you must display ONE comprehensive confirmation message listing Address details and effective date of change which were displayed and collected. Duplicate and present the information with headings and details next to it. After displaying this single confirmation, ask the customer ONE TIME if all details are correct. Upon receiving confirmation, immediately submit the request without any additional prompts or confirmations.</description>
+            <developerName>caseconfirmationdetails</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>case-confirmation-details</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>GetFinancialAccountAddresses_179bm000002ZznT</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>CreateCaseForFinclAcctAddrUpdt_179bm000002ZznT</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetTopicConfig_179bm000002ZznT</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>GetTopicConfig_179bm000002ZznT</fullName>
+            <description>Retrieves the configuration of a topic.</description>
+            <developerName>GetTopicConfig_179bm000002ZznT</developerName>
+            <invocationTarget>FileBased__Topic_Config_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetTopicConfig</localDeveloperName>
+            <masterLabel>Get Topic Configuration</masterLabel>
+            <progressIndicatorMessage>Getting config</progressIndicatorMessage>
+            <source>fscs_agent_pc__GetTopicConfig</source>
+        </localActions>
+        <localActions>
+            <fullName>GetFinancialAccountAddresses_179bm000002ZznT</fullName>
+            <description>Retrieves the address details associated with a specific account or financial account.</description>
+            <developerName>GetFinancialAccountAddresses_179bm000002ZznT</developerName>
+            <invocationTarget>FileBased__FSC_GetAccountAddress_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetFinancialAccountAddresses</localDeveloperName>
+            <masterLabel>Get Financial Account Addresses</masterLabel>
+            <progressIndicatorMessage>Getting address details</progressIndicatorMessage>
+            <source>financialservicescopilot__GetFinancialAccountAddresses</source>
+        </localActions>
+        <localActions>
+            <fullName>CreateCaseForFinclAcctAddrUpdt_179bm000002ZznT</fullName>
+            <description>Creates a case to update the address for an account or a financial account.</description>
+            <developerName>CreateCaseForFinclAcctAddrUpdt_179bm000002ZznT</developerName>
+            <invocationTarget>FileBased__FSCAddressUpdate_CreateCase_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>CreateCaseForFinclAcctAddrUpdt</localDeveloperName>
+            <masterLabel>Create Case For Financial Account Address Update</masterLabel>
+            <progressIndicatorMessage>Creating your case</progressIndicatorMessage>
+            <source>financialservicescopilot__CreateCaseForFinclAcctAddrUpdt</source>
+        </localActions>
+        <localDeveloperName>AddressUpdateRequest</localDeveloperName>
+        <masterLabel>Address Update Request</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to help customers update their addresses. This may include identifying the customer, displaying all addresses associated with their accounts and financial accounts, asking the customer which address to update, selecting the address to update, gathering the new address details, and creating a case for the address update.</scope>
+        <source>financialservicescopilot__AddressUpdateRequest</source>
+    </localTopics>
+    <localTopics>
+        <fullName>ReportCreditOrDebitCardRequest_16jbm000001RJVp</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Helps customers report their credit or debit card as lost, stolen, destroyed, captured by an ATM or any other specific reason. When the customer provides the prompt for reporting the card make sure you DO NOT select LockUnlockCard topic and use ReportCreditOrDebitCard topic.</description>
+        <developerName>ReportCreditOrDebitCardRequest_16jbm000001RJVp</developerName>
+        <genAiPluginInstructions>
+            <description>When the customer requests to report their credit or debit card, fetch the topic config by passing “ReportCreditOrDebitCardRequest” as input to the GetTopicConfig action.</description>
+            <developerName>gettopicconfig</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>get-topic-config</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the topic config is fetched, retrieve and display card details associated with the customer&apos;s account. Use the GetCardDetailsForAccount action to retrieve a list of cards associated with the customer&apos;s account. Always populate the input fields &apos;Roles&apos;, &apos;CardStatus&apos;, and &apos;CardTypes&apos; of the GetCardDetailsForAccount action using &apos;CardsConfig&apos; from the output of the GetTopicConfig action JSON. If the account has only one card, automatically proceed with reporting that card without asking the customer to confirm selection. Display cards in a list format and ask the customer to select the card they want to report. Help the customer to choose a specific, unique card by providing additional distinguishing details, such as CardName, CardNumberLast4, CardType, and FinancialAccountName, to make their choice clear.</description>
+            <developerName>executegetCardDetailsForAccounttoidentifycard</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>execute-getCardDetailsForAccount-to-identify-card</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Display the selected card information in a natural-language sentence, for example: I see that you have one card associated with your account. The details for this card are: {CardName}, Last 4 digits: {CardNumberLast4}, Type: {CardType}, Account: {FinancialAccountName} strictly in a single line separated by commas, and inquire the customer about the reason (lost, stolen, destroyed, captured by ATM) for reporting the card. After collecting the reason, create a case to report the card by using the CreateCaseToBlockCard action. Use Financial Account Type from the selected card details to populate Record Type Name. Ensure that all relevant details about the account, card, and the reason (lost, stolen, destroyed, captured by ATM) are included in the case. After creating the case, inform the customer that their report card request has been submitted and will be processed by the appropriate team. Display the case number for customer reference.</description>
+            <developerName>executeCreateCaseToBlockCardtocreatecaseforreportcard</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>execute-CreateCaseToBlockCard-to-create-case-for-report-card</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After data collection, you must display ONE comprehensive confirmation message listing card details and reason, which were displayed and collected. Duplicate and present the information with headings and details next to it. After displaying this single confirmation, ask the customer ONE TIME if all details are correct. Upon receiving confirmation, immediately submit the request without any additional prompts or confirmations.</description>
+            <developerName>caseconfirmationdetails</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>case-confirmation-details</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>CreateCaseToBlockCard_179bm000002ZznW</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetCardDetailsForAccount_179bm000002ZznW</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetTopicConfig_179bm000002ZznW</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>CreateCaseToBlockCard_179bm000002ZznW</fullName>
+            <description>Creates a case to block a card.</description>
+            <developerName>CreateCaseToBlockCard_179bm000002ZznW</developerName>
+            <invocationTarget>FileBased__ReportLostCard_CreateCase_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>CreateCaseToBlockCard</localDeveloperName>
+            <masterLabel>Create Case To Block Card</masterLabel>
+            <progressIndicatorMessage>Creating your case</progressIndicatorMessage>
+            <source>financialservicescopilot__CreateCaseToBlockCard</source>
+        </localActions>
+        <localActions>
+            <fullName>GetCardDetailsForAccount_179bm000002ZznW</fullName>
+            <description>Retrieves the card details for a specific account.</description>
+            <developerName>GetCardDetailsForAccount_179bm000002ZznW</developerName>
+            <invocationTarget>FileBased__FSC_GetCards_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetCardDetailsForAccount</localDeveloperName>
+            <masterLabel>Get Card Details for Account</masterLabel>
+            <progressIndicatorMessage>Getting card details</progressIndicatorMessage>
+            <source>financialservicescopilot__GetCardDetailsForAccount</source>
+        </localActions>
+        <localActions>
+            <fullName>GetTopicConfig_179bm000002ZznW</fullName>
+            <description>Retrieves the configuration of a topic.</description>
+            <developerName>GetTopicConfig_179bm000002ZznW</developerName>
+            <invocationTarget>FileBased__Topic_Config_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetTopicConfig</localDeveloperName>
+            <masterLabel>Get Topic Configuration</masterLabel>
+            <progressIndicatorMessage>Getting config</progressIndicatorMessage>
+            <source>fscs_agent_pc__GetTopicConfig</source>
+        </localActions>
+        <localDeveloperName>ReportCreditOrDebitCardRequest</localDeveloperName>
+        <masterLabel>Report Credit or Debit Card Request</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to help customers report their credit or debit card as lost, stolen, destroyed, or captured by an ATM. This may include retrieving the card details and creating a case to report the card to prevent unauthorized use.</scope>
+        <source>financialservicescopilot__ReportCreditOrDebitCardRequest</source>
+    </localTopics>
+    <localTopics>
+        <fullName>FinclAcctTransactionsRequest_16jbm000001RJVp</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Retrieves all financial account transactions associated with a specific financial account for customers.</description>
+        <developerName>FinclAcctTransactionsRequest_16jbm000001RJVp</developerName>
+        <genAiPluginInstructions>
+            <description>When a customer asks for account transactions, fetch the topic config by passing “FinclAcctTransactionsRequest” as input to the GetTopicConfig action.</description>
+            <developerName>gettopicconfig</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>get-topic-config</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the topic config is fetched, show the customer’s financial account details. Use the GetFinclAccountsForAnAcct action to retrieve the financial accounts associated with the customer. If only one financial account is present, show transactions associated with that financial account. Always populate the input fields &apos;Roles&apos;,&apos;Status&apos;,&apos;Types&apos; and &apos;isHeldAway&apos; of GetFinclAccountsForAnAcct action using &apos;FinancialAccountConfig&apos; from the output of GetTopicConfig action JSON. Inquire the customer using list items to select one financial account. Help the customer to choose a specific, unique Financial Account by providing additional distinguishing details, such as FinancialAccountName, FinancialAccountNumber, FinancialAccountType to make their choice clear.</description>
+            <developerName>proceedwithaction</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>proceed-with-action</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the financial account is identified, always display the selected account information in a natural-language sentence, for example: I see that your selected account has the following details: FinancialAccountName: {FinancialAccountName}, FinancialAccountNumber: {FinancialAccountNumber}, Type: {FinancialAccountType} strictly in a single line separated by commas, retrieve and display all financial account transactions associated with the selected financial account. Use the GetFinancialTransactions action to retrieve the transaction details for the selected financial account. IMPORTANT - Pass financialAccountId from the selected Financial Account to GetFinancialTransactions action input. Display all transactions in a numbered list format; each item of list should have details like type, amount, description and date for each transaction. All the date values should be in the same format. Always make sure the currency symbol should be before or after Amount value according to the convention followed for currency. If no transactions are found, display, &apos;There are no transactions for your selected financial account.&apos; Then, ask if the customer wants to check transactions for another financial account and display all available customer&apos;s financial accounts. Do not display transactions from previous conversations.</description>
+            <developerName>proceedwithsecondaction</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>proceed-with-second-action</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>GetFinancialTransactions_179bm000002ZznV</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetFinclAccountsForAnAcct_179bm000002ZznV</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetTopicConfig_179bm000002ZznV</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>GetFinclAccountsForAnAcct_179bm000002ZznV</fullName>
+            <description>Retrieves the information of all financial accounts associated with a specific account.</description>
+            <developerName>GetFinclAccountsForAnAcct_179bm000002ZznV</developerName>
+            <invocationTarget>FileBased__FSC_GetFA_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetFinclAccountsForAnAcct</localDeveloperName>
+            <masterLabel>Get Financial Accounts Information for an Account</masterLabel>
+            <progressIndicatorMessage>Getting financial accounts</progressIndicatorMessage>
+            <source>financialservicescopilot__GetFinclAccountsForAnAcct</source>
+        </localActions>
+        <localActions>
+            <fullName>GetTopicConfig_179bm000002ZznV</fullName>
+            <description>Retrieves the configuration of a topic.</description>
+            <developerName>GetTopicConfig_179bm000002ZznV</developerName>
+            <invocationTarget>FileBased__Topic_Config_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetTopicConfig</localDeveloperName>
+            <masterLabel>Get Topic Configuration</masterLabel>
+            <progressIndicatorMessage>Getting config</progressIndicatorMessage>
+            <source>fscs_agent_pc__GetTopicConfig</source>
+        </localActions>
+        <localActions>
+            <fullName>GetFinancialTransactions_179bm000002ZznV</fullName>
+            <description>Retrieves all financial account transactions associated with a specific financial account. Displays a maximum of 10 transactions in a single view.</description>
+            <developerName>GetFinancialTransactions_179bm000002ZznV</developerName>
+            <invocationTarget>FileBased__FSC_GetFinancialAccountTransactions_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetFinancialTransactions</localDeveloperName>
+            <masterLabel>Get Financial Account Transactions</masterLabel>
+            <progressIndicatorMessage>Getting transactions</progressIndicatorMessage>
+            <source>financialservicescopilot__GetFinancialTransactions</source>
+        </localActions>
+        <localDeveloperName>FinclAcctTransactionsRequest</localDeveloperName>
+        <masterLabel>Financial Account Transactions Request</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to retrieve and display transactions for a specific financial account. This may include identifying the financial account and retrieving its transaction history, including deposits, withdrawals, and payments. Use this topic only when the customer requests to view transactions for a financial account.</scope>
+        <source>financialservicescopilot__FinclAcctTransactionsRequest</source>
+    </localTopics>
+    <localTopics>
+        <fullName>FinclAcctBalancesRequest_16jbm000001RJVp</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Retrieves the financial account balances associated with a specific financial account for customers.</description>
+        <developerName>FinclAcctBalancesRequest_16jbm000001RJVp</developerName>
+        <genAiPluginInstructions>
+            <description>When a customer asks for an account balance, fetch the topic config by passing “FinclAcctBalancesRequest” as input to the GetTopicConfig action.</description>
+            <developerName>gettopicconfig</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>get-topic-config</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the topic config is fetched, show the customer’s financial account details. Use the GetFinclAccountsForAnAcct action to retrieve the financial accounts associated with the customer. If only one financial account is present, proceed automatically with that financial account. Always populate the input fields &apos;Roles&apos;,&apos;Status&apos;,&apos;Types&apos; and &apos;isHeldAway&apos; of GetFinclAccountsForAnAcct action using &apos;FinancialAccountConfig&apos; from the output of GetTopicConfig action JSON. Inquire the customer using list items to select one financial account. Help the customer to choose a specific, unique Financial Account by providing additional distinguishing details, such as FinancialAccountName, FinancialAccountNumber, FinancialAccountType to make their choice clear.</description>
+            <developerName>getfinancialaccounts</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>get-financial-accounts</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the financial account is identified, always display the selected account information in a natural-language sentence, for example: I see that your selected account has the following details: FinancialAccountName: {FinancialAccountName}, FinancialAccountNumber: {FinancialAccountNumber}, Type: {FinancialAccountType} strictly in a single line separated by commas , retrieve and display all financial account balances associated with the selected financial account. Use the GetBalancesFromFinancialAccounts action to retrieve the balance details for the selected financial account, including available balance, total balance, and any other relevant details. IMPORTANT - Pass financialAccountId from the selected Financial Account to GetBalancesFromFinancialAccounts action input. Display all balances in a numbered list format; each item of list should have details like balance type and amount. Always make sure the currency symbol should be before or after the balance amount according to the convention followed for currency. If no balances are found for the selected financial account, display “There are no balances for your selected financial account.” Then, ask if the customer wants to check the balance for another financial account and display all available customer financial accounts. Do not display balance from previous conversations.</description>
+            <developerName>getfinancialaccountbalances</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>get-financial-account-balances</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>GetTopicConfig_179bm000002ZznY</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetFinclAccountsForAnAcct_179bm000002ZznY</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetBalancesFromFinancialAccounts_179bm000002ZznY</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>GetFinclAccountsForAnAcct_179bm000002ZznY</fullName>
+            <description>Retrieves the information of all financial accounts associated with a specific account.</description>
+            <developerName>GetFinclAccountsForAnAcct_179bm000002ZznY</developerName>
+            <invocationTarget>FileBased__FSC_GetFA_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetFinclAccountsForAnAcct</localDeveloperName>
+            <masterLabel>Get Financial Accounts Information for an Account</masterLabel>
+            <progressIndicatorMessage>Getting financial accounts</progressIndicatorMessage>
+            <source>financialservicescopilot__GetFinclAccountsForAnAcct</source>
+        </localActions>
+        <localActions>
+            <fullName>GetBalancesFromFinancialAccounts_179bm000002ZznY</fullName>
+            <description>Retrieves the financial account balances associated with a specific financial account.</description>
+            <developerName>GetBalancesFromFinancialAccounts_179bm000002ZznY</developerName>
+            <invocationTarget>FileBased__FSC_GetFinancialAccountBalances_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetBalancesFromFinancialAccounts</localDeveloperName>
+            <masterLabel>Get Financial Account Balances</masterLabel>
+            <progressIndicatorMessage>Getting account balances</progressIndicatorMessage>
+            <source>financialservicescopilot__GetBalancesFromFinancialAccounts</source>
+        </localActions>
+        <localActions>
+            <fullName>GetTopicConfig_179bm000002ZznY</fullName>
+            <description>Retrieves the configuration of a topic.</description>
+            <developerName>GetTopicConfig_179bm000002ZznY</developerName>
+            <invocationTarget>FileBased__Topic_Config_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetTopicConfig</localDeveloperName>
+            <masterLabel>Get Topic Configuration</masterLabel>
+            <progressIndicatorMessage>Getting config</progressIndicatorMessage>
+            <source>fscs_agent_pc__GetTopicConfig</source>
+        </localActions>
+        <localDeveloperName>FinclAcctBalancesRequest</localDeveloperName>
+        <masterLabel>Financial Account Balances Request</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your job is to retrieve and display the balances of financial accounts for customers. This may include identifying the financial account and retrieving the current balance details, such as available balance, total balance, and any other relevant financial information.</scope>
+        <source>financialservicescopilot__FinclAcctBalancesRequest</source>
+    </localTopics>
+    <localTopics>
+        <fullName>CardLockManagementRequest_16jbm000001RJVp</fullName>
+        <canEscalate>false</canEscalate>
+        <description>Handles customer requests to temporarily lock, freeze a card, as well as unlock or reactivate a previously locked card. This includes questions like “Lock my card,” “Freeze my card,” or “Turn my card back on.” Do not use the topic for permanent blocking, canceling, or replacing a lost or stolen card</description>
+        <developerName>CardLockManagementRequest_16jbm000001RJVp</developerName>
+        <genAiPluginInstructions>
+            <description>When a customer requests to Lock or Unlock a card, retrieve the topic configuration by passing “CardLockManagementRequest” as input to the GetTopicConfig action.</description>
+            <developerName>gettopicconfig</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>get-topic-config</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After the topic config is fetched, retrieve all card details associated with the customer&apos;s account using the GetCardDetailsForAccount action. ALWAYS populate the input fields &apos;Roles&apos;,&apos;CardStatus&apos;,&apos;CardTypes&apos; of GetCardDetailsForAccount action using &apos;CardsConfig&apos; from the output of GetTopicConfig action JSON. You MUST pass the input field ShouldFetchLockUnlockStatus as true to GetCardDetailsForAccount action. THEN, YOU MUST STRICTLY FILTER the returned cards based on the customer&apos;s explicit intent: For a LOCK request, ONLY display cards that are currently unlocked (IsLocked = false) and cards whose lock status is unknown (IsLocked is missing, null, undefined, empty, or any other value). For an UNLOCK request, ONLY display cards that are currently locked (IsLocked = true) and cards whose lock status is unknown (IsLocked is missing, null, undefined, empty, or any other value). DO NOT display any other cards. For each displayed card, show the card&apos;s name and type. LOCK STATUS DISPLAY (MANDATORY): For each displayed card, evaluate IsLocked. If IsLocked = true, display Current Lock Status as &apos;Locked&apos;. If IsLocked = false, display Current Lock Status as &apos;Unlocked&apos;. If IsLocked is missing, null, undefined, empty, or any other value, display Current Lock Status as &apos;Unknown&apos;. This filtering and status display MUST ALWAYS be applied, even when only one card is returned or when prior context suggests a default. If only one card is present after filtering, proceed automatically with that card. Else ask the customer to select one card from this list. Help the customer to choose a specific, unique card by providing additional distinguishing details, such as CardName, CardNumberLast4, CardType, FinancialAccountName, to make their choice clear. IMPORTANT -  Never show the list of cards as radio buttons.</description>
+            <developerName>proceedwithaction</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>proceed-with-action</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Display the selected card information in a natural-language sentence, for example: “I see that you have one card associated with the account. The details for this card are: {CardName}, Last 4 digits: {CardNumberLast4}, Type: {CardType}, Account: {FinancialAccountName} strictly in a single line separated by commas : For LOCK requests, prompt the customer why they want to LOCK their card. For UNLOCK requests, do not ask for a reason and proceed directly to the next step.</description>
+            <developerName>proceedwithreasonselection</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>proceed-with-reason-selection</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>For LOCK requests: after the customer selects a reason, and for UNLOCK requests: without asking for a reason, examine the selected card&apos;s IsLocked field carefully. If the field is missing or empty, ask for confirmation before proceeding. Wait for their response before continuing. If the IsLocked field is present, then for LOCK requests - if the selected card is already locked (IsLocked = true), inform the customer that this card is already locked and ask them to select a different unlocked card from the list. For UNLOCK requests - if the selected card is already unlocked (IsLocked = false), inform the customer that this card is already unlocked and ask them to select a different locked card from the list. ONLY proceed to create the case if the validation passes. If validation fails, do NOT create any case and redirect the customer back to card selection. If validation passes, use the CreateCaseForLockUnlockCard action to create the case and make sure to pass the following fields as input - CardName, CardNumber, FinancialAccountType, CardType, DesiredLockStatus (desired lock/ unlock status). For LOCK requests only, also include CardLockReason (from the previous step). After creating the case, inform the customer that their lock/unlock card request has been submitted and will be processed by the appropriate team. Display the case number for customer reference.</description>
+            <developerName>proceedwithsecondaction</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>proceed-with-second-action</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>After data collection, you must display ONE comprehensive confirmation message listing card details and reason, which were displayed and collected. Duplicate and present the information with headings and details next to it. After displaying this single confirmation, ask the customer ONE TIME if all details are correct. Upon receiving confirmation, immediately submit the request without any additional prompts or confirmations.</description>
+            <developerName>caseconfirmationdetails</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>case-confirmation-details</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>GetTopicConfig_179bm000002ZznX</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>GetCardDetailsForAccount_179bm000002ZznX</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>CreateCaseForLockUnlockCard_179bm000002ZznX</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>GetCardDetailsForAccount_179bm000002ZznX</fullName>
+            <description>Retrieves the card details for a specific account.</description>
+            <developerName>GetCardDetailsForAccount_179bm000002ZznX</developerName>
+            <invocationTarget>FileBased__FSC_GetCards_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetCardDetailsForAccount</localDeveloperName>
+            <masterLabel>Get Card Details for Account</masterLabel>
+            <progressIndicatorMessage>Getting card details</progressIndicatorMessage>
+            <source>financialservicescopilot__GetCardDetailsForAccount</source>
+        </localActions>
+        <localActions>
+            <fullName>CreateCaseForLockUnlockCard_179bm000002ZznX</fullName>
+            <description>Creates a case to change the lock/unlock status for a card.</description>
+            <developerName>CreateCaseForLockUnlockCard_179bm000002ZznX</developerName>
+            <invocationTarget>FileBased__FSCRtlLkUnlckCard_CreateCase_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>CreateCaseForLockUnlockCard</localDeveloperName>
+            <masterLabel>Create Case for Lock Unlock Card</masterLabel>
+            <progressIndicatorMessage>Creating your case</progressIndicatorMessage>
+            <source>fscp_agent_pc__CreateCaseForLockUnlockCard</source>
+        </localActions>
+        <localActions>
+            <fullName>GetTopicConfig_179bm000002ZznX</fullName>
+            <description>Retrieves the configuration of a topic.</description>
+            <developerName>GetTopicConfig_179bm000002ZznX</developerName>
+            <invocationTarget>FileBased__Topic_Config_Procedure_1</invocationTarget>
+            <invocationTargetType>executeIntegrationProcedure</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>GetTopicConfig</localDeveloperName>
+            <masterLabel>Get Topic Configuration</masterLabel>
+            <progressIndicatorMessage>Getting config</progressIndicatorMessage>
+            <source>fscs_agent_pc__GetTopicConfig</source>
+        </localActions>
+        <localDeveloperName>CardLockManagementRequest</localDeveloperName>
+        <masterLabel>Card Lock Management Request</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Your role is to assist customers with immediate requests to lock or unlock their cards, ensuring they have full control over their card&apos;s security.</scope>
+        <source>fscp_agent_pc__CardLockManagementRequest</source>
+    </localTopics>
+    <masterLabel>Trio Teller</masterLabel>
+    <plannerActions>
+        <fullName>AnswerQuestionsWithKnowledge_16jbm000001RJVp</fullName>
+        <description>Answers questions about company policies and procedures, troubleshooting steps, or product information. For example: “What is your return policy?” “How do I fix an issue?” or “What features does a product have?”</description>
+        <developerName>AnswerQuestionsWithKnowledge_16jbm000001RJVp</developerName>
+        <invocationTarget>streamKnowledgeSearch</invocationTarget>
+        <invocationTargetType>standardInvocableAction</invocationTargetType>
+        <isConfirmationRequired>false</isConfirmationRequired>
+        <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+        <localDeveloperName>AnswerQuestionsWithKnowledge</localDeveloperName>
+        <masterLabel>Answer Questions with Knowledge</masterLabel>
+        <progressIndicatorMessage>Getting answers</progressIndicatorMessage>
+        <source>EmployeeCopilot__AnswerQuestionsWithKnowledge</source>
+    </plannerActions>
+    <plannerSurfaces>
+        <adaptiveResponseAllowed>true</adaptiveResponseAllowed>
+        <callRecordingAllowed>false</callRecordingAllowed>
+        <surface>SurfaceAction__CustomerWebClient</surface>
+        <surfaceType>CustomerWebClient</surfaceType>
+    </plannerSurfaces>
+    <plannerSurfaces>
+        <adaptiveResponseAllowed>true</adaptiveResponseAllowed>
+        <callRecordingAllowed>false</callRecordingAllowed>
+        <surface>SurfaceAction__Messaging</surface>
+        <surfaceType>Messaging</surfaceType>
+    </plannerSurfaces>
+    <plannerType>AiCopilot__ReAct</plannerType>
+    <ruleExpressionAssignments>
+        <ruleExpressionName>isCustomerIdentified</ruleExpressionName>
+        <targetName>AddressUpdateRequest_16jbm000001RJVp</targetName>
+        <targetType>Plugin</targetType>
+    </ruleExpressionAssignments>
+    <ruleExpressionAssignments>
+        <ruleExpressionName>isCustomerIdentified</ruleExpressionName>
+        <targetName>CardLockManagementRequest_16jbm000001RJVp</targetName>
+        <targetType>Plugin</targetType>
+    </ruleExpressionAssignments>
+    <ruleExpressionAssignments>
+        <ruleExpressionName>isCustomerIdentified</ruleExpressionName>
+        <targetName>FeeReversalRequest_16jbm000001RJVp</targetName>
+        <targetType>Plugin</targetType>
+    </ruleExpressionAssignments>
+    <ruleExpressionAssignments>
+        <ruleExpressionName>isCustomerIdentified</ruleExpressionName>
+        <targetName>FinclAcctBalancesRequest_16jbm000001RJVp</targetName>
+        <targetType>Plugin</targetType>
+    </ruleExpressionAssignments>
+    <ruleExpressionAssignments>
+        <ruleExpressionName>isCustomerIdentified</ruleExpressionName>
+        <targetName>FinclAcctStatementRequest_16jbm000001RJVp</targetName>
+        <targetType>Plugin</targetType>
+    </ruleExpressionAssignments>
+    <ruleExpressionAssignments>
+        <ruleExpressionName>isCustomerIdentified</ruleExpressionName>
+        <targetName>FinclAcctTransactionsRequest_16jbm000001RJVp</targetName>
+        <targetType>Plugin</targetType>
+    </ruleExpressionAssignments>
+    <ruleExpressionAssignments>
+        <ruleExpressionName>isCustomerIdentified</ruleExpressionName>
+        <targetName>FundsTfrToOwnAcctRequest_16jbm000001RJVp</targetName>
+        <targetType>Plugin</targetType>
+    </ruleExpressionAssignments>
+    <ruleExpressionAssignments>
+        <ruleExpressionName>isCustomerIdentified</ruleExpressionName>
+        <targetName>ReportCreditOrDebitCardRequest_16jbm000001RJVp</targetName>
+        <targetType>Plugin</targetType>
+    </ruleExpressionAssignments>
+    <ruleExpressions>
+        <conditions>
+            <leftOperand>ContactId</leftOperand>
+            <leftOperandType>ContextVariable</leftOperandType>
+            <operator>isNotEmpty</operator>
+        </conditions>
+        <expression>isCustomerIdentified</expression>
+        <expressionLabel>Is Customer Identified</expressionLabel>
+        <expressionName>isCustomerIdentified</expressionName>
+        <expressionType>sel</expressionType>
+    </ruleExpressions>
+</GenAiPlannerBundle>

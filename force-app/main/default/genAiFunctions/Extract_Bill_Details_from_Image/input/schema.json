@@ -1,0 +1,28 @@
+{
+  "required" : [ "disputeId", "disputeItemId", "messagingSessionId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "disputeId" : {
+      "title" : "Dispute Id",
+      "description" : "Dispute Id",
+      "lightning:type" : "lightning__recordIdType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "disputeItemId" : {
+      "title" : "Dispute Item Id",
+      "description" : "Dispute Item Id",
+      "lightning:type" : "lightning__recordIdType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "messagingSessionId" : {
+      "title" : "Messaging Id",
+      "description" : "Messaging Session Id",
+      "lightning:type" : "lightning__recordIdType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

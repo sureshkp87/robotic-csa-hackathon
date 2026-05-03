@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DigitalExperienceConfig xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>ESW_VantageChannel_1777640237581</label>
+    <site>
+        <urlPathPrefix>ESWVantageChannel1777640237581</urlPathPrefix>
+    </site>
+    <space>site/ESW_VantageChannel_17776402375811</space>
+</DigitalExperienceConfig>

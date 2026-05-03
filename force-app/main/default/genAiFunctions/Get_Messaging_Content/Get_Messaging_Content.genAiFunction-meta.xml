@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Retrieves the latest image uploaded to a MessagingSession and returns it as Base64 for AI extraction</description>
+    <developerName>Get_Messaging_Content</developerName>
+    <invocationTarget>GetMessagingContentAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>Get_Messaging_Content</localDeveloperName>
+    <masterLabel>Get Messaging Content</masterLabel>
+</GenAiFunction>

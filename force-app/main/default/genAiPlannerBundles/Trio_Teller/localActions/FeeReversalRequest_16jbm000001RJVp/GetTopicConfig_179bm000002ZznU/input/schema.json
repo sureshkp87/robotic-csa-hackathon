@@ -1,0 +1,16 @@
+{
+  "required" : [ "IntegrationProcedureInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureInput" : {
+      "title" : "Integration Procedure Input",
+      "description" : "The input JSON data containing the topic API name of the request.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedTopicx785fConfigInput_Data",
+      "einstein:description" : "The input JSON data containing the topic API name of the request.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

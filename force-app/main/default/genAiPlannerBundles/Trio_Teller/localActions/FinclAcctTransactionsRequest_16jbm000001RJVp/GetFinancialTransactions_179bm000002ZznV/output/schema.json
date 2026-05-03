@@ -1,0 +1,16 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureOutput" : {
+      "title" : "Integration Procedure Output",
+      "description" : "This is output to be provided to the user,it is the list of Financial Account Transactions where each transaction is defined by fields like TransactionPostedDate, TransactionAmount, TransactionType, TransactionDescription, TransactionAmountCurrency, TransactionCode and Subtype.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedFSCx785fGetFinancialAccountTransactionsOutput_Data",
+      "einstein:description" : "This is output to be provided to the user,it is the list of Financial Account Transactions where each transaction is defined by fields like TransactionPostedDate, TransactionAmount, TransactionType, TransactionDescription, TransactionAmountCurrency, TransactionCode and Subtype.",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

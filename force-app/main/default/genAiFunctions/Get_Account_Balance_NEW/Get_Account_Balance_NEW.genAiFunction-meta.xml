@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Fetches balance details from FinancialAccountBalance for a given Financial Account</description>
+    <developerName>Get_Account_Balance_NEW</developerName>
+    <invocationTarget>GetAccountBalanceActionCust</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+    <localDeveloperName>Get_Account_Balance_NEW</localDeveloperName>
+    <masterLabel>Get Account Balance NEW</masterLabel>
+    <progressIndicatorMessage>Getting the balanc now....</progressIndicatorMessage>
+</GenAiFunction>

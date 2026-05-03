@@ -1,0 +1,16 @@
+{
+  "required" : [ "IntegrationProcedureInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureInput" : {
+      "title" : "Integration Procedure Input",
+      "description" : "This input should be provided by the user. It includes the mandatory accountId, and optional fields such as address types, roles, and includeAllAddress. ",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedFSCx785fGetAccountAddressInput_Data",
+      "einstein:description" : "This input should be provided by the user. It includes the mandatory accountId, and optional fields such as address types, roles, and includeAllAddress.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

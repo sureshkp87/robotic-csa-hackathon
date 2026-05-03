@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DataSourceObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataSource>MessagingEventsWhatsAppV2_00Dbm00000fmLDp_89ee0b08_c7c3_4326_84a1_0e0497b72efa</dataSource>
+    <externalRecordIdentifier>MessagingEventsWhatsAppV2_00Dbm00000fmLDp_WhatsappEngagement_8FAA1AA9</externalRecordIdentifier>
+    <masterLabel>MessagingEventsWhatsAppV2_00Dbm00000fmLDp_WhatsappEngagement_8FAA1AA9</masterLabel>
+    <storageType>LOCAL</storageType>
+    <templateVersion>1</templateVersion>
+</DataSourceObject>

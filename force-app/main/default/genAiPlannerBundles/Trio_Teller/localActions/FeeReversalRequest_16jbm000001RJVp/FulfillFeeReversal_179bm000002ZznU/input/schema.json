@@ -1,0 +1,16 @@
+{
+  "required" : [ "IntegrationProcedureInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureInput" : {
+      "title" : "Integration Procedure Input",
+      "description" : "Input includes required fields like SelectedTransaction, SelectedFinancialAccount, SelectedTransactions and ReversalReason.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedFSCx785fFulfillFeeReversalInput_Data",
+      "einstein:description" : "Input includes required fields like SelectedTransaction, SelectedFinancialAccount, SelectedTransactions and ReversalReason.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

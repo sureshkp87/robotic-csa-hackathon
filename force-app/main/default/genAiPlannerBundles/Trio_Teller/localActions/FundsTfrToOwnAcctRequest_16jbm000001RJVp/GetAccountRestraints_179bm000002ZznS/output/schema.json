@@ -1,0 +1,16 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureOutput" : {
+      "title" : "Integration Procedure Output",
+      "description" : "Returns a JSON response containing the list of account restraints.",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedFSCx785fGetAccountRestraintsOutput_Data",
+      "einstein:description" : "Returns a JSON response containing the list of account restraints.",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

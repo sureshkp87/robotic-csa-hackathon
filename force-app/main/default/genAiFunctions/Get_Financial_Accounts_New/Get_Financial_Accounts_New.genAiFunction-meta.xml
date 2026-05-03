@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Fetches all active financial accounts linked to the given Account via FinancialAccountParty</description>
+    <developerName>Get_Financial_Accounts_New</developerName>
+    <invocationTarget>GetFinancialAccountsActionCust</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+    <localDeveloperName>Get_Financial_Accounts_New</localDeveloperName>
+    <masterLabel>Get Financial Accounts New</masterLabel>
+    <progressIndicatorMessage>Getting all available accounts...</progressIndicatorMessage>
+</GenAiFunction>

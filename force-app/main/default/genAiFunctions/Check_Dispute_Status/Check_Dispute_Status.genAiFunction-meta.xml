@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Returns current status and stage of a Dispute using standard FSC Dispute object</description>
+    <developerName>Check_Dispute_Status</developerName>
+    <invocationTarget>CheckDisputeStatusAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+    <localDeveloperName>Check_Dispute_Status</localDeveloperName>
+    <masterLabel>Check Dispute Status</masterLabel>
+    <progressIndicatorMessage>Checking dispute status....</progressIndicatorMessage>
+</GenAiFunction>

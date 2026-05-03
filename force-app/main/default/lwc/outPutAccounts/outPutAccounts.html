@@ -1,0 +1,52 @@
+<template>
+    <template if:true={accounts}>
+        <div class="slds-card slds-p-around_medium">
+            <h2 class="slds-text-heading_small slds-m-bottom_small">
+                Financial Accounts
+                <lightning-badge label={accountCount} class="slds-m-left_x-small"></lightning-badge>
+            </h2>
+
+            <template for:each={accounts} for:item="account">
+                <div key={account.FinancialAccountId} class="slds-box slds-m-bottom_small">
+                    <div class="slds-media slds-media_center slds-m-bottom_small">
+                        <div class="slds-media__figure">
+                            <lightning-icon
+                                icon-name={account.iconName}
+                                size="medium">
+                            </lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <p class="slds-text-heading_x-small">{account.FinancialAccountName}</p>
+                            <p class="slds-text-body_small slds-text-color_weak">{account.FinancialAccountNumber}</p>
+                        </div>
+                    </div>
+
+                    <dl class="slds-dl_horizontal slds-text-body_small">
+                        <dt class="slds-dl__term">Type</dt>
+                        <dd class="slds-dl__detail">{account.FinancialAccountType}</dd>
+
+                        <dt class="slds-dl__term">Status</dt>
+                        <dd class="slds-dl__detail">
+                            <lightning-badge
+                                label={account.Status}
+                                class={account.statusClass}>
+                            </lightning-badge>
+                        </dd>
+
+                        <dt class="slds-dl__term">Role</dt>
+                        <dd class="slds-dl__detail">{account.Role}</dd>
+
+                        <dt class="slds-dl__term">Held Away</dt>
+                        <dd class="slds-dl__detail">{account.heldAwayLabel}</dd>
+                    </dl>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <template if:false={accounts}>
+        <div class="slds-illustration slds-illustration_small">
+            <p class="slds-text-color_weak">No financial accounts found.</p>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,16 @@
+{
+  "required" : [ "IntegrationProcedureInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureInput" : {
+      "title" : "Integration Procedure Input",
+      "description" : "This input should be provided by the user. It includes the mandatory accountId, and optional fields such as roles, status and types of card",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedFSCx785fGetCardsInput_Data",
+      "einstein:description" : "This input should be provided by the user. It includes the mandatory accountId, and optional fields such as roles, status and types of card",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

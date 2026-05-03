@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MktDataConnection xmlns="http://soap.sforce.com/2006/04/metadata">
+    <connectionMethod>Ingress</connectionMethod>
+    <connectionStatus>ACTIVE</connectionStatus>
+    <connectorName>Observability</connectorName>
+    <externalRecordIdentifier>b4f55f08-94b4-4cb6-b017-eeccbe3eb7c2</externalRecordIdentifier>
+    <isActivityEnabled>false</isActivityEnabled>
+    <isSentosEnabled>false</isSentosEnabled>
+    <masterLabel>Observability</masterLabel>
+    <shouldAutoCreatePolicies>false</shouldAutoCreatePolicies>
+</MktDataConnection>

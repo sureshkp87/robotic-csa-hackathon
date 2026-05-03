@@ -1,0 +1,16 @@
+{
+  "required" : [ "IntegrationProcedureInput" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "IntegrationProcedureInput" : {
+      "title" : "Integration Procedure Input",
+      "description" : "This is input to be asked to the user, it is the financialAccountBalanceTypes and financialAccountId",
+      "lightning:type" : "@apexClassType/IntegProcd__FileBasedFSCx785fGetFinancialAccountBalancesInput_Data",
+      "einstein:description" : "This is input to be asked to the user, it is the financialAccountBalanceTypes and financialAccountId",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

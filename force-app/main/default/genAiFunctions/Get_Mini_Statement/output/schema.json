@@ -1,0 +1,15 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "result" : {
+      "title" : "Mini Statement Output",
+      "description" : "Last 5 transactions for the selected financial account",
+      "lightning:type" : "@apexClassType/c__MiniStatementWrapper",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}
